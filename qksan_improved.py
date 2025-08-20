@@ -502,7 +502,10 @@ class EnhancedQuantumClassifier(nn.Module):
             if self.use_classical_nn:
                 logits = self.classical_decoder(quantum_outputs)
             else:
-                logits = self.quantum_classifier(quantum_outputs)
+                # For quantum-only classification, create simple linear layer
+                if not hasattr(self, 'quantum_output_layer'):
+                    self.quantum_output_layer = nn.Linear(1, self.num_classes).to(self.device)
+                logits = self.quantum_output_layer(quantum_outputs)
         
         return logits
 

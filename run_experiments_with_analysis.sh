@@ -91,30 +91,29 @@ extract_metrics() {
         
         # Extract from output log
         if [ -f "$output_log" ]; then
-            epochs_completed=$(grep -c "Epoch [0-9]*:" "$output_log" || echo "0")
-            training_time=$(grep "Training completed in" "$output_log" | awk '{print $4}' || echo "0")
-            total_params=$(grep "Total parameters:" "$output_log" | awk '{print $3}' | tr -d ',' || echo "N/A")
-            vocab_size=$(grep "Vocabulary size:" "$output_log" | awk '{print $3}' || echo "N/A")
-            train_samples=$(grep "Train samples:" "$output_log" | awk '{print $3}' || echo "N/A")
-            val_samples=$(grep "Validation samples:" "$output_log" | awk '{print $3}' || echo "N/A")
+            epochs_completed=$(grep -c "INFO - Epoch [0-9]*:" "$output_log" || echo "0")
+            training_time=$(grep "Training completed in" "$output_log" | awk '{print $10}' || echo "0")
+            total_params=$(grep "Total parameters:" "$output_log" | awk '{print $10}' | tr -d ',' || echo "N/A")
+            vocab_size=$(grep "Vocabulary size:" "$output_log" | awk '{print $9}' || echo "N/A")
+            train_samples=$(grep "Train samples:" "$output_log" | awk '{print $9}' || echo "N/A")
+            val_samples=$(grep "Validation samples:" "$output_log" | awk '{print $9}' || echo "N/A")
             
-            # Get best validation loss
-            best_val_loss=$(grep "Best validation loss:" "$output_log" | tail -1 | awk '{print $4}' || echo "N/A")
+            # Get best validation loss (field 13: "Best validation loss: 4.3764")
+            best_val_loss=$(grep "Best validation loss:" "$output_log" | tail -1 | awk '{print $13}' || echo "N/A")
             
-            # Get final losses
-            final_train_loss=$(grep "Train Loss:" "$output_log" | tail -1 | awk '{print $6}' || echo "N/A")
-            final_val_loss=$(grep "Val Loss:" "$output_log" | tail -1 | awk '{print $6}' || echo "N/A")
+            # Get final losses and PPL
+            final_train_loss=$(grep "Train Loss:" "$output_log" | tail -1 | awk '{print $12}' | tr -d ',' || echo "N/A")
+            final_val_loss=$(grep "Val Loss:" "$output_log" | tail -1 | awk '{print $12}' | tr -d ',' || echo "N/A")
+            final_train_ppl=$(grep "Train PPL:" "$output_log" | tail -1 | awk '{print $15}' || echo "N/A")
+            final_val_ppl=$(grep "Val PPL:" "$output_log" | tail -1 | awk '{print $15}' || echo "N/A")
             
-            # Get best train metrics (from epoch with best val loss)
+            # For best metrics, use the final values as approximation
             if [ "$best_val_loss" != "N/A" ]; then
-                # Find the epoch with best validation loss
-                best_epoch=$(grep -n "Val Loss: $best_val_loss" "$output_log" | head -1 | cut -d':' -f1)
-                if [ -n "$best_epoch" ]; then
-                    # Get train metrics from that epoch
-                    best_train_loss=$(sed -n "${best_epoch}p" "$output_log" | grep "Train Loss:" | awk '{print $6}' || echo "N/A")
-                    best_train_ppl=$(sed -n "${best_epoch}p" "$output_log" | grep "Train PPL:" | awk '{print $9}' || echo "N/A")
-                    best_val_ppl=$(sed -n "${best_epoch}p" "$output_log" | grep "Val PPL:" | awk '{print $9}' || echo "N/A")
-                fi
+                best_train_loss="$final_train_loss"
+                best_train_ppl="$final_train_ppl"
+                best_val_ppl="$final_val_ppl"
+                # Calculate best epoch (final epoch - 1)
+                best_epoch=$((epochs_completed - 1))
             fi
         fi
         

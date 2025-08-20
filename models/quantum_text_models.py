@@ -189,14 +189,25 @@ class QKSANTextGenerator(QuantumTextGenerator):
         outputs = []
         for i in range(seq_len):
             if i == 0:
-                # For first position, use average of embeddings
+                # For first position, use first token embedding
                 context = embedded[:, 0, :]  # [batch_size, embedding_dim]
             else:
                 # Use average of previous tokens as context
                 context = embedded[:, :i, :].mean(dim=1)  # [batch_size, embedding_dim]
             
-            # Get logits from QKSAN model
-            logits = self.qksan_model(context)  # [batch_size, vocab_size]
+            # Get logits from QKSAN model for each sample in batch
+            batch_logits = []
+            for b in range(batch_size):
+                sample_context = context[b:b+1, :]  # [1, embedding_dim]
+                sample_logits = self.qksan_model(sample_context)  # [vocab_size] or [1, vocab_size]
+                
+                # Ensure correct shape
+                if len(sample_logits.shape) == 1:
+                    sample_logits = sample_logits.unsqueeze(0)  # [1, vocab_size]
+                batch_logits.append(sample_logits)
+            
+            # Combine batch results
+            logits = torch.cat(batch_logits, dim=0)  # [batch_size, vocab_size]
             outputs.append(logits)
         
         # Stack outputs
@@ -340,6 +351,9 @@ def create_quantum_text_model(model_type: str, vocab_size: int, **kwargs) -> Qua
             kwargs['embedding_dim'] = kwargs.pop('hidden_dim')
         return QKSANTextGenerator(vocab_size, **kwargs)
     elif model_type.lower() == 'qrwkv':
+        # Map hidden_dim to n_embd for QRWKV
+        if 'hidden_dim' in kwargs:
+            kwargs['n_embd'] = kwargs.pop('hidden_dim')
         return QRWKVTextGenerator(vocab_size, **kwargs)
     else:
         raise ValueError(f"Unknown model type: {model_type}. Available: qasa, qksan, qrwkv")

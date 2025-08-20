@@ -297,16 +297,42 @@ def evaluate_generation(args) -> None:
     tokenizer.word_to_id = tokenizer_data['word_to_id']
     tokenizer.id_to_word = {int(k): v for k, v in tokenizer_data['id_to_word'].items()}
     
-    # Load model
+    # Load checkpoint to get model configuration
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
     model_type = checkpoint.get('model_type', args.model)
     
-    # Create model
+    # Try to get model configuration from checkpoint
+    model_config = checkpoint.get('model_config', {})
+    
+    # Infer model parameters from state_dict if config not available
+    state_dict = checkpoint.get('model_state_dict', {})
+    inferred_hidden_dim = 128  # default
+    inferred_n_qubits = 6      # default
+    
+    if 'embedding.weight' in state_dict:
+        vocab_size_from_checkpoint, inferred_hidden_dim = state_dict['embedding.weight'].shape
+        print(f"Inferred hidden_dim from checkpoint: {inferred_hidden_dim}")
+    
+    # Create model with configuration from checkpoint or inferred values
     model_kwargs = {
         'device': device,
-        'hidden_dim': 128,
-        'n_qubits': 6
+        'hidden_dim': model_config.get('hidden_dim', inferred_hidden_dim),
+        'n_qubits': model_config.get('n_qubits', inferred_n_qubits)
     }
+    
+    # Add model-specific parameters
+    if model_type == 'qrwkv':
+        model_kwargs.update({
+            'n_embd': model_kwargs['hidden_dim'],
+            'n_layer': model_config.get('n_layers', 4),
+            'n_head': model_config.get('n_heads', 8),
+            'block_size': model_config.get('max_length', 64)
+        })
+    elif model_type == 'qksan':
+        model_kwargs.update({
+            'embedding_dim': model_kwargs['hidden_dim'],
+            'model_variant': model_config.get('qksan_variant', 'PCAAmHE')
+        })
     
     model = create_quantum_text_model(
         model_type=model_type,
@@ -314,16 +340,45 @@ def evaluate_generation(args) -> None:
         **model_kwargs
     )
     
-    model.load_state_dict(checkpoint['model_state_dict'])
+    # Load state dict with flexibility for missing keys
+    model_state_dict = checkpoint['model_state_dict']
+    current_state_dict = model.state_dict()
+    
+    # Filter out keys that don't exist in the current model
+    filtered_state_dict = {}
+    missing_keys = []
+    unexpected_keys = []
+    
+    for key, value in model_state_dict.items():
+        if key in current_state_dict:
+            if current_state_dict[key].shape == value.shape:
+                filtered_state_dict[key] = value
+            else:
+                print(f"Shape mismatch for {key}: current {current_state_dict[key].shape} vs checkpoint {value.shape}")
+        else:
+            unexpected_keys.append(key)
+    
+    for key in current_state_dict:
+        if key not in model_state_dict:
+            missing_keys.append(key)
+    
+    if missing_keys:
+        print(f"Missing keys (will use random initialization): {missing_keys}")
+    if unexpected_keys:
+        print(f"Unexpected keys (will ignore): {unexpected_keys}")
+    
+    model.load_state_dict(filtered_state_dict, strict=False)
     model.eval()
     
     # Load validation dataset for ground truth
-    val_dataloader, _ = create_dataloader(
+    # Note: We need to use the same vocab_size and max_length as the trained model
+    val_dataloader, val_tokenizer = create_dataloader(
         dataset_name=args.dataset,
         split='val',
         batch_size=1,
         max_samples=50,  # Evaluate on 50 samples
-        tokenizer=tokenizer
+        vocab_size=tokenizer.get_vocab_size(),
+        max_length=64  # Use default max_length
     )
     
     # Create generator
@@ -345,11 +400,12 @@ def evaluate_generation(args) -> None:
         # Convert input to text (first few tokens as prompt)
         prompt_length = min(5, len(input_ids))
         prompt_tokens = input_ids[:prompt_length]
-        prompt_text = ' '.join([tokenizer.id_to_word.get(int(token_id), '<UNK>') 
+        # Use val_tokenizer to decode since the data comes from val_dataloader
+        prompt_text = ' '.join([val_tokenizer.id_to_word.get(int(token_id), '<UNK>') 
                                for token_id in prompt_tokens])
         
-        # Ground truth (target text)
-        ground_truth = ' '.join([tokenizer.id_to_word.get(int(token_id), '<UNK>') 
+        # Ground truth (target text) - also use val_tokenizer
+        ground_truth = ' '.join([val_tokenizer.id_to_word.get(int(token_id), '<UNK>') 
                                 for token_id in target_ids])
         
         # Generate text

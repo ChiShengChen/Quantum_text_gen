@@ -118,7 +118,13 @@ class QuantumTextGenerator_Module:
                 next_token_logits = logits[:, -1, :]  # [batch_size, vocab_size]
             else:
                 logits = self.model(generated)
-                next_token_logits = logits[:, -1, :]  # [batch_size, vocab_size]
+                # Handle different output dimensions
+                if len(logits.shape) == 3:
+                    next_token_logits = logits[:, -1, :]  # [batch_size, vocab_size]
+                elif len(logits.shape) == 2:
+                    next_token_logits = logits  # Already [batch_size, vocab_size]
+                else:
+                    raise ValueError(f"Unexpected logits shape: {logits.shape}")
             
             # Apply repetition penalty
             if repetition_penalty != 1.0:
