@@ -1,0 +1,54 @@
+Traceback (most recent call last):
+  File "/media/meow/Transcend/Quantum_text_gen/quantum_text_gen.py", line 642, in main
+    evaluate_generation(args)
+  File "/media/meow/Transcend/Quantum_text_gen/quantum_text_gen.py", line 412, in evaluate_generation
+    generated_texts = generator.generate(
+                      ^^^^^^^^^^^^^^^^^^^
+  File "/media/meow/Transcend/Quantum_text_gen/generation/generator.py", line 80, in generate
+    generated = self._generate_sequence(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/meow/Transcend/Quantum_text_gen/generation/generator.py", line 120, in _generate_sequence
+    logits = self.model(generated)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/meow/Transcend/Quantum_text_gen/models/quantum_text_models.py", line 202, in forward
+    sample_logits = self.qksan_model(sample_context)  # [vocab_size] or [1, vocab_size]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/meow/Transcend/Quantum_text_gen/qksan_improved.py", line 487, in forward
+    out = self.circuit(x_encoded[i], self.theta)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/pennylane/workflow/qnode.py", line 905, in __call__
+    return self._impl_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/pennylane/workflow/qnode.py", line 868, in _impl_call
+    tape = self.construct(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/pennylane/logging/decorators.py", line 61, in wrapper_entry
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/meow/anaconda3/envs/qcl/lib/python3.12/site-packages/pennylane/workflow/qnode.py", line 854, in construct
+    self._qfunc_output = self.func(*args, **kwargs)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/meow/Transcend/Quantum_text_gen/qksan_improved.py", line 435, in circuit
+    amplitude_encode(x, wires=self.wires)
+  File "/media/meow/Transcend/Quantum_text_gen/qksan_improved.py", line 104, in amplitude_encode
+    x = x.detach().numpy()
+        ^^^^^^^^^^^^^^^^^^
+TypeError: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.
+Using GPU: NVIDIA GeForce RTX 3090
+Inferred hidden_dim from checkpoint: 64
+
+Evaluating qksan on haiku dataset
+============================================================
+Error: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.
