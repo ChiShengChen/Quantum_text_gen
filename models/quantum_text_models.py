@@ -12,6 +12,7 @@ import numpy as np
 from qasa_model import QASAWrapper
 from qksan_improved import EnhancedQuantumClassifier, build_enhanced_model
 from qrwkv_model import QuantumRWKVModel, ModelConfig as QRWKVModelConfig
+from qksan_fixed import create_fixed_qksan_model
 
 class QuantumTextGenerator(nn.Module):
     """Base class for quantum text generators"""
@@ -152,9 +153,9 @@ class QKSANTextGenerator(QuantumTextGenerator):
     
     def __init__(self,
                  vocab_size: int,
-                 embedding_dim: int = 64,
+                 embedding_dim: int = 128,
                  n_qubits: int = 6,
-                 model_variant: str = "PCAAmHE",
+                 model_variant: str = "fixed",
                  device: str = 'cpu'):
         super().__init__(vocab_size, 'qksan')
         
@@ -162,13 +163,19 @@ class QKSANTextGenerator(QuantumTextGenerator):
         self.n_qubits = n_qubits
         self.device = device
         
-        # Embedding layer
-        self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        
-        # QKSAN model for classification (adapted for next-token prediction)
-        self.qksan_model = build_enhanced_model(
-            model_variant, embedding_dim, n_qubits, vocab_size, device
-        )
+        # Use fixed QKSAN model for better stability
+        if model_variant == "fixed":
+            self.qksan_model = create_fixed_qksan_model(
+                vocab_size=vocab_size,
+                embedding_dim=embedding_dim,
+                n_qubits=n_qubits,
+                device=device
+            )
+        else:
+            # Fallback to original model
+            self.qksan_model = build_enhanced_model(
+                model_variant, embedding_dim, n_qubits, vocab_size, device
+            )
         
         self.to(device)
     
@@ -180,40 +187,8 @@ class QKSANTextGenerator(QuantumTextGenerator):
         Returns:
             logits: [batch_size, seq_len, vocab_size]
         """
-        batch_size, seq_len = input_ids.shape
-        
-        # Embed tokens
-        embedded = self.embedding(input_ids)  # [batch_size, seq_len, embedding_dim]
-        
-        # Process each position for next-token prediction
-        outputs = []
-        for i in range(seq_len):
-            if i == 0:
-                # For first position, use first token embedding
-                context = embedded[:, 0, :]  # [batch_size, embedding_dim]
-            else:
-                # Use average of previous tokens as context
-                context = embedded[:, :i, :].mean(dim=1)  # [batch_size, embedding_dim]
-            
-            # Get logits from QKSAN model for each sample in batch
-            batch_logits = []
-            for b in range(batch_size):
-                sample_context = context[b:b+1, :]  # [1, embedding_dim]
-                sample_logits = self.qksan_model(sample_context)  # [vocab_size] or [1, vocab_size]
-                
-                # Ensure correct shape
-                if len(sample_logits.shape) == 1:
-                    sample_logits = sample_logits.unsqueeze(0)  # [1, vocab_size]
-                batch_logits.append(sample_logits)
-            
-            # Combine batch results
-            logits = torch.cat(batch_logits, dim=0)  # [batch_size, vocab_size]
-            outputs.append(logits)
-        
-        # Stack outputs
-        all_logits = torch.stack(outputs, dim=1)  # [batch_size, seq_len, vocab_size]
-        
-        return all_logits
+        # Use the fixed QKSAN model's forward method
+        return self.qksan_model(input_ids)
     
     def generate(self,
                 input_ids: torch.Tensor,

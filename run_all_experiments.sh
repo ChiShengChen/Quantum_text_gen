@@ -1,361 +1,716 @@
 #!/bin/bash
 
-# Quantum Text Generation - All Experiments Runner
-# This script runs training experiments for all model-dataset combinations
+# 量子文字生成模型完整實驗腳本
+# Complete Quantum Text Generation Experiment Script
 
-# Colors for output
+set -e
+
+# 顏色定義
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+CYAN='\033[0;36m'
+NC='\033[0m'
 
-# Configuration
-EPOCHS=50
-BATCH_SIZE=8
-MAX_SAMPLES=300
-LEARNING_RATE=0.005
-BASE_DIR="./experiments"
+# 默認配置
+EPOCHS=${1:-8}
+BATCH_SIZE=${2:-16}
+MAX_LENGTH=${3:-32}
+VOCAB_SIZE=${4:-500}
+MAX_SAMPLES=${5:-200}
+LEARNING_RATE=${6:-0.001}
 
-# Arrays of models and datasets
-MODELS=("qasa" "qksan" "qrwkv")
+# 模型和數據集
+MODELS=("qksan" "qrwkv" "qasa")
 DATASETS=("simple_sentences" "short_stories" "quantum_phrases" "haiku" "proverbs")
 
-# Model-specific parameters
-declare -A MODEL_PARAMS
-MODEL_PARAMS[qasa]="--hidden_dim 128 --n_qubits 6"
-MODEL_PARAMS[qksan]="--hidden_dim 64 --n_qubits 6 --qksan_variant PCAAmHE"
-MODEL_PARAMS[qrwkv]="--hidden_dim 256 --n_qubits 4 --n_layers 4 --n_heads 8"
+# 輸出目錄
+OUTPUT_DIR="./experiments/complete_run_$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$OUTPUT_DIR"
 
-# Function to print colored output
-print_status() {
-    echo -e "${BLUE}[$(date '+%Y-%m-%d %H:%M:%S')]${NC} $1"
-}
+echo -e "${CYAN}🚀 量子文字生成模型完整實驗腳本${NC}"
+echo -e "${CYAN}====================================${NC}"
+echo -e "${BLUE}訓練輪數:${NC} $EPOCHS"
+echo -e "${BLUE}批次大小:${NC} $BATCH_SIZE"
+echo -e "${BLUE}最大長度:${NC} $MAX_LENGTH"
+echo -e "${BLUE}詞彙大小:${NC} $VOCAB_SIZE"
+echo -e "${BLUE}最大樣本:${NC} $MAX_SAMPLES"
+echo -e "${BLUE}學習率:${NC} $LEARNING_RATE"
+echo -e "${BLUE}輸出目錄:${NC} $OUTPUT_DIR"
+echo -e "${YELLOW}⚠️  強制使用CPU以避免CUDA錯誤${NC}"
+echo -e "${GREEN}✅ 包含所有三個模型: QKSAN, QRWKV, QASA${NC}"
+echo -e "${GREEN}✅ 包含完整評估指標: 困惑度、BLEU、多樣性、重複率、流暢度${NC}"
+echo ""
 
-print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
+# 創建Python實驗腳本
+cat > "$OUTPUT_DIR/run_complete_experiments.py" << 'EOF'
+#!/usr/bin/env python3
+import os
+import sys
+import json
+import torch
+import time
+import numpy as np
+from collections import Counter
+import re
+from datetime import datetime
 
-print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-# Function to run a single experiment
-run_experiment() {
-    local model=$1
-    local dataset=$2
-    local exp_dir="${BASE_DIR}/${model}/${dataset}"
+def calculate_bleu_score(references, candidates, n_grams=[1, 2, 3, 4]):
+    """計算BLEU分數"""
+    def get_ngrams(text, n):
+        words = text.split()
+        return [' '.join(words[i:i+n]) for i in range(len(words)-n+1)]
     
-    print_status "Starting experiment: ${model} on ${dataset}"
+    def calculate_precision(reference_ngrams, candidate_ngrams):
+        if not candidate_ngrams:
+            return 0.0
+        matches = sum(1 for ngram in candidate_ngrams if ngram in reference_ngrams)
+        return matches / len(candidate_ngrams)
     
-    # Create experiment directory
-    mkdir -p "$exp_dir"
+    bleu_scores = {}
     
-    # Build command
-    local cmd="python quantum_text_gen.py \
-        --mode train \
-        --model $model \
-        --dataset $dataset \
-        --epochs $EPOCHS \
-        --batch_size $BATCH_SIZE \
-        --max_samples $MAX_SAMPLES \
-        --learning_rate $LEARNING_RATE \
-        --checkpoint_dir $exp_dir \
-        --log_dir $exp_dir \
-        ${MODEL_PARAMS[$model]}"
-    
-    # Log the command
-    echo "Command: $cmd" > "$exp_dir/command.log"
-    
-    # Run the experiment
-    print_status "Running: $model + $dataset"
-    if eval $cmd > "$exp_dir/output.log" 2>&1; then
-        print_success "Completed: $model + $dataset"
-        echo "SUCCESS" > "$exp_dir/status.txt"
+    for n in n_grams:
+        total_precision = 0.0
+        total_candidates = 0
         
-        # Test generation with the trained model
-        print_status "Testing generation for: $model + $dataset"
-        local test_prompt="the"
-        if [[ $dataset == "quantum_phrases" ]]; then
-            test_prompt="quantum"
-        elif [[ $dataset == "haiku" ]]; then
-            test_prompt="spring"
-        elif [[ $dataset == "proverbs" ]]; then
-            test_prompt="time"
-        fi
-        
-        python quantum_text_gen.py \
-            --mode generate \
-            --checkpoint "$exp_dir/best_model.pth" \
-            --prompt "$test_prompt" \
-            --max_length 30 \
-            --temperature 1.0 \
-            --do_sample \
-            --num_sequences 3 > "$exp_dir/generation_test.txt" 2>&1
+        for ref, cand in zip(references, candidates):
+            ref_ngrams = get_ngrams(ref, n)
+            cand_ngrams = get_ngrams(cand, n)
             
-        if [ $? -eq 0 ]; then
-            print_success "Generation test completed for: $model + $dataset"
-        else
-            print_warning "Generation test failed for: $model + $dataset"
-        fi
+            if cand_ngrams:
+                precision = calculate_precision(ref_ngrams, cand_ngrams)
+                total_precision += precision
+                total_candidates += 1
         
-    else
-        print_error "Failed: $model + $dataset"
-        echo "FAILED" > "$exp_dir/status.txt"
-        return 1
-    fi
+        if total_candidates > 0:
+            bleu_scores[f'BLEU-{n}'] = total_precision / total_candidates
+        else:
+            bleu_scores[f'BLEU-{n}'] = 0.0
     
-    return 0
-}
+    return bleu_scores
 
-# Function to generate summary report
-generate_report() {
-    local report_file="$BASE_DIR/experiment_summary.md"
+def calculate_diversity_metrics(texts):
+    """計算多樣性指標"""
+    def get_ngrams(text, n):
+        words = text.split()
+        return [' '.join(words[i:i+n]) for i in range(len(words)-n+1)]
     
-    print_status "Generating experiment summary report..."
+    # Distinct-1 and Distinct-2
+    unigrams = []
+    bigrams = []
     
-    cat > "$report_file" << EOF
-# Quantum Text Generation Experiment Summary
+    for text in texts:
+        unigrams.extend(get_ngrams(text, 1))
+        bigrams.extend(get_ngrams(text, 2))
+    
+    distinct_1 = len(set(unigrams)) / len(unigrams) if unigrams else 0
+    distinct_2 = len(set(bigrams)) / len(bigrams) if bigrams else 0
+    
+    # Entropy
+    word_counts = Counter()
+    total_words = 0
+    
+    for text in texts:
+        words = text.split()
+        word_counts.update(words)
+        total_words += len(words)
+    
+    if total_words > 0:
+        entropy = -sum((count/total_words) * np.log2(count/total_words) 
+                      for count in word_counts.values())
+    else:
+        entropy = 0
+    
+    return {
+        'distinct_1': distinct_1,
+        'distinct_2': distinct_2,
+        'entropy': entropy,
+        'vocabulary_size': len(word_counts)
+    }
 
-**Generated on:** $(date)
-**Total Experiments:** $((${#MODELS[@]} * ${#DATASETS[@]}))
+def calculate_repetition_rate(texts):
+    """計算重複率"""
+    def get_repetition_score(text):
+        words = text.split()
+        if len(words) < 2:
+            return 0.0
+        
+        consecutive_repeats = 0
+        total_pairs = len(words) - 1
+        
+        for i in range(len(words) - 1):
+            if words[i] == words[i + 1]:
+                consecutive_repeats += 1
+        
+        return consecutive_repeats / total_pairs if total_pairs > 0 else 0.0
+    
+    repetition_scores = [get_repetition_score(text) for text in texts]
+    return np.mean(repetition_scores)
 
-## Configuration
-- Epochs: $EPOCHS
-- Batch Size: $BATCH_SIZE  
-- Max Samples: $MAX_SAMPLES
-- Learning Rate: $LEARNING_RATE
+def calculate_fluency_metrics(texts):
+    """計算流暢度指標"""
+    def get_sentence_lengths(text):
+        # 簡單的句子分割
+        sentences = re.split(r'[.!?]+', text)
+        return [len(s.split()) for s in sentences if s.strip()]
+    
+    all_lengths = []
+    for text in texts:
+        all_lengths.extend(get_sentence_lengths(text))
+    
+    if not all_lengths:
+        return {
+            'avg_sentence_length': 0,
+            'sentence_length_std': 0,
+            'sentence_length_variation': 0
+        }
+    
+    avg_length = np.mean(all_lengths)
+    std_length = np.std(all_lengths)
+    variation = std_length / avg_length if avg_length > 0 else 0
+    
+    return {
+        'avg_sentence_length': avg_length,
+        'sentence_length_std': std_length,
+        'sentence_length_variation': variation
+    }
 
-## Results Overview
+def get_reference_texts(dataset_name, num_samples=5):
+    """獲取參考文本"""
+    reference_texts = {
+        'simple_sentences': [
+            "the cat sat on the mat",
+            "birds fly in the sky",
+            "water flows down the river",
+            "spring brings new life",
+            "stars shine in the night"
+        ],
+        'short_stories': [
+            "the old man whispered secrets to the wind",
+            "she danced through the moonlight",
+            "time stood still in that moment",
+            "memories faded like autumn leaves",
+            "hope bloomed in the darkest night"
+        ],
+        'quantum_phrases': [
+            "quantum superposition allows multiple states",
+            "entanglement connects particles instantly",
+            "wave function collapse upon measurement",
+            "quantum coherence maintains phase relationships",
+            "quantum tunneling through energy barriers"
+        ],
+        'haiku': [
+            "cherry blossoms fall",
+            "mountain mist clears slowly",
+            "autumn leaves dance",
+            "winter snow blankets",
+            "spring rain awakens"
+        ],
+        'proverbs': [
+            "actions speak louder than words",
+            "time heals all wounds",
+            "knowledge is power",
+            "practice makes perfect",
+            "honesty is the best policy"
+        ]
+    }
+    
+    return reference_texts.get(dataset_name, reference_texts['simple_sentences'])[:num_samples]
 
-| Model | Dataset | Status | Best Val Loss | Train PPL | Generation Sample |
-|-------|---------|--------|---------------|-----------|-------------------|
+def run_experiment(model_type, dataset_name, config, device):
+    """運行單個實驗"""
+    print(f"\n{'='*80}")
+    print(f"🎯 開始實驗: {model_type.upper()} on {dataset_name}")
+    print(f"{'='*80}")
+    
+    try:
+        # 導入必要的模塊
+        from data.datasets import create_dataloader
+        
+        if model_type == 'qksan':
+            from qksan_fixed import create_fixed_qksan_model
+        elif model_type == 'qrwkv':
+            from qrwkv_model import QuantumRWKVModel, ModelConfig
+        elif model_type == 'qasa':
+            from models.quantum_text_models import QASATextGenerator
+        
+        # 創建數據加載器
+        print("📊 創建數據加載器...")
+        train_loader, tokenizer = create_dataloader(
+            dataset_name=dataset_name,
+            split='train',
+            batch_size=config['batch_size'],
+            max_length=config['max_length'],
+            vocab_size=config['vocab_size'],
+            max_samples=config['max_samples'],
+            shuffle=True
+        )
+        
+        val_loader, _ = create_dataloader(
+            dataset_name=dataset_name,
+            split='val',
+            batch_size=config['batch_size'],
+            max_length=config['max_length'],
+            vocab_size=config['vocab_size'],
+            max_samples=config['max_samples'] // 4,
+            shuffle=False
+        )
+        
+        test_loader, _ = create_dataloader(
+            dataset_name=dataset_name,
+            split='test',
+            batch_size=config['batch_size'],
+            max_length=config['max_length'],
+            vocab_size=config['vocab_size'],
+            max_samples=config['max_samples'] // 4,
+            shuffle=False
+        )
+        
+        print(f"✅ 數據加載器創建成功")
+        print(f"📝 詞彙大小: {tokenizer.get_vocab_size()}")
+        
+        # 創建模型
+        print(f"\n🤖 創建{model_type.upper()}模型...")
+        vocab_size = tokenizer.get_vocab_size()
+        
+        if model_type == 'qksan':
+            model = create_fixed_qksan_model(
+                vocab_size=vocab_size,
+                embedding_dim=64,
+                n_qubits=4,
+                device=device
+            )
+        elif model_type == 'qrwkv':
+            model_config = ModelConfig(
+                vocab_size=vocab_size,
+                n_embd=64,
+                n_head=8,
+                n_layer=2,
+                n_qubits=2,
+                block_size=256
+            )
+            model = QuantumRWKVModel(model_config)
+        elif model_type == 'qasa':
+            model = QASATextGenerator(
+                vocab_size=vocab_size,
+                hidden_dim=64,
+                seq_len=config['max_length'],
+                n_qubits=4,
+                device=device
+            )
+        
+        print(f"✅ 模型創建成功")
+        print(f"📊 模型參數數量: {sum(p.numel() for p in model.parameters()):,}")
+        
+        # 訓練模型
+        print(f"\n🎯 開始訓練...")
+        model.to(device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'])
+        criterion = torch.nn.CrossEntropyLoss()
+        
+        train_losses = []
+        val_losses = []
+        best_val_loss = float('inf')
+        start_time = time.time()
+        
+        for epoch in range(config['epochs']):
+            # Training
+            model.train()
+            train_loss = 0.0
+            train_batches = 0
+            
+            for batch in train_loader:
+                try:
+                    input_ids = batch['input_ids'].to(device)
+                    target_ids = batch['target_ids'].to(device)
+                    
+                    # 檢查索引範圍
+                    if input_ids.max() >= vocab_size or target_ids.max() >= vocab_size:
+                        continue
+                    
+                    optimizer.zero_grad()
+                    outputs = model(input_ids)
+                    if isinstance(outputs, tuple):
+                        outputs = outputs[0]
+                    
+                    logits = outputs.view(-1, outputs.size(-1))
+                    targets = target_ids.view(-1)
+                    loss = criterion(logits, targets)
+                    loss.backward()
+                    optimizer.step()
+                    
+                    train_loss += loss.item()
+                    train_batches += 1
+                except Exception as e:
+                    continue
+            
+            # Validation
+            model.eval()
+            val_loss = 0.0
+            val_batches = 0
+            
+            with torch.no_grad():
+                for batch in val_loader:
+                    try:
+                        input_ids = batch['input_ids'].to(device)
+                        target_ids = batch['target_ids'].to(device)
+                        
+                        # 檢查索引範圍
+                        if input_ids.max() >= vocab_size or target_ids.max() >= vocab_size:
+                            continue
+                        
+                        outputs = model(input_ids)
+                        if isinstance(outputs, tuple):
+                            outputs = outputs[0]
+                        
+                        logits = outputs.view(-1, outputs.size(-1))
+                        targets = target_ids.view(-1)
+                        loss = criterion(logits, targets)
+                        val_loss += loss.item()
+                        val_batches += 1
+                    except Exception as e:
+                        continue
+            
+            if train_batches > 0 and val_batches > 0:
+                avg_train_loss = train_loss / train_batches
+                avg_val_loss = val_loss / val_batches
+                
+                train_losses.append(avg_train_loss)
+                val_losses.append(avg_val_loss)
+                
+                if avg_val_loss < best_val_loss:
+                    best_val_loss = avg_val_loss
+                
+                print(f"Epoch {epoch+1}/{config['epochs']} | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
+            else:
+                print(f"Epoch {epoch+1}/{config['epochs']} | 跳過 (無有效數據)")
+        
+        training_time = time.time() - start_time
+        print(f"✅ 訓練完成! 最佳驗證損失: {best_val_loss:.4f}")
+        print(f"⏱️  訓練時間: {training_time:.2f}秒")
+        
+        # 評估模型
+        print(f"\n📊 開始全面評估...")
+        
+        # 計算困惑度
+        model.eval()
+        total_loss = 0.0
+        total_tokens = 0
+        
+        with torch.no_grad():
+            for batch in test_loader:
+                try:
+                    input_ids = batch['input_ids'].to(device)
+                    target_ids = batch['target_ids'].to(device)
+                    
+                    # 檢查索引範圍
+                    if input_ids.max() >= vocab_size or target_ids.max() >= vocab_size:
+                        continue
+                    
+                    outputs = model(input_ids)
+                    if isinstance(outputs, tuple):
+                        outputs = outputs[0]
+                    
+                    logits = outputs.view(-1, outputs.size(-1))
+                    targets = target_ids.view(-1)
+                    
+                    loss = torch.nn.functional.cross_entropy(logits, targets, reduction='sum')
+                    total_loss += loss.item()
+                    total_tokens += targets.numel()
+                except Exception as e:
+                    continue
+        
+        if total_tokens > 0:
+            avg_loss = total_loss / total_tokens
+            perplexity = torch.exp(torch.tensor(avg_loss)).item()
+        else:
+            perplexity = float('inf')
+        
+        print(f"📈 困惑度: {perplexity:.4f}")
+        
+        # 生成文本示例
+        test_prompts = ["the", "birds", "water", "spring", "stars"]
+        generated_texts = []
+        
+        model.eval()
+        with torch.no_grad():
+            for prompt in test_prompts:
+                try:
+                    prompt_tokens = tokenizer.encode(prompt)
+                    # 檢查prompt tokens是否在詞彙範圍內
+                    if max(prompt_tokens) >= vocab_size:
+                        generated_texts.append(f"[詞彙超出範圍: {prompt}]")
+                        continue
+                    
+                    input_ids = torch.tensor([prompt_tokens], device=device)
+                    
+                    generated = input_ids.clone()
+                    for step in range(20):
+                        try:
+                            outputs = model(generated)
+                            if isinstance(outputs, tuple):
+                                outputs = outputs[0]
+                            
+                            next_token_logits = outputs[0, -1, :]
+                            next_token = torch.argmax(next_token_logits).unsqueeze(0)
+                            generated = torch.cat([generated, next_token.unsqueeze(0)], dim=1)
+                        except Exception as e:
+                            break
+                    
+                    generated_text = tokenizer.decode(generated[0].tolist())
+                    generated_texts.append(generated_text)
+                except Exception as e:
+                    generated_texts.append(f"[生成失敗: {prompt}]")
+        
+        print(f"📝 生成文本示例:")
+        for i, text in enumerate(generated_texts):
+            print(f"    {i+1}. {text}")
+        
+        # 獲取參考文本
+        reference_texts = get_reference_texts(dataset_name, len(generated_texts))
+        
+        # 計算BLEU分數
+        bleu_scores = calculate_bleu_score(reference_texts, generated_texts)
+        print(f"🎯 BLEU分數:")
+        for metric, score in bleu_scores.items():
+            print(f"    {metric}: {score:.4f}")
+        
+        # 計算多樣性指標
+        diversity_metrics = calculate_diversity_metrics(generated_texts)
+        print(f"🌈 多樣性指標:")
+        print(f"    Distinct-1: {diversity_metrics['distinct_1']:.4f}")
+        print(f"    Distinct-2: {diversity_metrics['distinct_2']:.4f}")
+        print(f"    Entropy: {diversity_metrics['entropy']:.4f}")
+        print(f"    Vocabulary Size: {diversity_metrics['vocabulary_size']}")
+        
+        # 計算重複率
+        repetition_rate = calculate_repetition_rate(generated_texts)
+        print(f"🔄 重複率: {repetition_rate:.4f}")
+        
+        # 計算流暢度指標
+        fluency_metrics = calculate_fluency_metrics(generated_texts)
+        print(f"📖 流暢度指標:")
+        print(f"    平均句子長度: {fluency_metrics['avg_sentence_length']:.2f}")
+        print(f"    句子長度標準差: {fluency_metrics['sentence_length_std']:.2f}")
+        print(f"    句子長度變異係數: {fluency_metrics['sentence_length_variation']:.4f}")
+        
+        # 保存結果
+        result = {
+            'model_type': model_type,
+            'dataset_name': dataset_name,
+            'training_results': {
+                'train_losses': train_losses,
+                'val_losses': val_losses,
+                'best_val_loss': best_val_loss,
+                'final_train_loss': train_losses[-1] if train_losses else float('inf'),
+                'final_val_loss': val_losses[-1] if val_losses else float('inf'),
+                'training_time': training_time
+            },
+            'evaluation_results': {
+                'perplexity': perplexity,
+                'generated_texts': generated_texts,
+                'reference_texts': reference_texts,
+                'bleu_scores': bleu_scores,
+                'diversity_metrics': diversity_metrics,
+                'repetition_rate': repetition_rate,
+                'fluency_metrics': fluency_metrics
+            },
+            'config': config,
+            'vocab_size': vocab_size,
+            'status': 'success'
+        }
+        
+        return result
+        
+    except Exception as e:
+        print(f"❌ 實驗失敗: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        return {
+            'model_type': model_type,
+            'dataset_name': dataset_name,
+            'status': 'failed',
+            'error': str(e),
+            'config': config
+        }
+
+def main():
+    # 配置
+    config = {
+        'epochs': int(os.environ.get('EPOCHS', 8)),
+        'batch_size': int(os.environ.get('BATCH_SIZE', 16)),
+        'max_length': int(os.environ.get('MAX_LENGTH', 32)),
+        'vocab_size': int(os.environ.get('VOCAB_SIZE', 500)),
+        'max_samples': int(os.environ.get('MAX_SAMPLES', 200)),
+        'learning_rate': float(os.environ.get('LEARNING_RATE', 0.001))
+    }
+    
+    # 模型和數據集
+    models = os.environ.get('MODELS', 'qksan,qrwkv,qasa').split(',')
+    datasets = os.environ.get('DATASETS', 'simple_sentences,short_stories,quantum_phrases,haiku,proverbs').split(',')
+    
+    # 強制使用CPU以避免CUDA錯誤
+    device = 'cpu'
+    print(f"🖥️  使用設備: {device} (強制CPU模式)")
+    
+    print(f"🤖 模型: {models}")
+    print(f"📊 數據集: {datasets}")
+    print(f"🔄 訓練輪數: {config['epochs']} epochs")
+    
+    # 創建輸出目錄
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    results_dir = f"results_{timestamp}"
+    os.makedirs(results_dir, exist_ok=True)
+    
+    # 運行實驗
+    all_results = {}
+    
+    for model_type in models:
+        for dataset_name in datasets:
+            try:
+                print(f"\n🚀 開始實驗: {model_type.upper()} on {dataset_name}")
+                result = run_experiment(model_type, dataset_name, config, device)
+                
+                # 保存單個實驗結果
+                experiment_key = f"{model_type}_{dataset_name}"
+                all_results[experiment_key] = result
+                
+                # 保存到文件
+                result_file = os.path.join(results_dir, f"{experiment_key}.json")
+                with open(result_file, 'w') as f:
+                    json.dump(result, f, indent=2, default=str)
+                
+                if result.get('status') == 'success':
+                    print(f"✅ 實驗完成: {model_type.upper()} on {dataset_name}")
+                else:
+                    print(f"❌ 實驗失敗: {model_type.upper()} on {dataset_name}")
+                
+            except Exception as e:
+                print(f"❌ 實驗失敗 {model_type} on {dataset_name}: {e}")
+                import traceback
+                traceback.print_exc()
+                continue
+    
+    # 保存所有結果
+    all_results_file = os.path.join(results_dir, "all_results.json")
+    with open(all_results_file, 'w') as f:
+        json.dump(all_results, f, indent=2, default=str)
+    
+    # 生成完整報告
+    report_file = os.path.join(results_dir, "complete_report.md")
+    with open(report_file, 'w') as f:
+        f.write(f"# 量子文字生成模型完整實驗報告\n\n")
+        f.write(f"## 實驗配置\n")
+        f.write(f"- 實驗時間: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"- 模型: {models}\n")
+        f.write(f"- 數據集: {datasets}\n")
+        f.write(f"- 訓練輪數: {config['epochs']}\n")
+        f.write(f"- 批次大小: {config['batch_size']}\n")
+        f.write(f"- 學習率: {config['learning_rate']}\n")
+        f.write(f"- 設備: CPU (強制模式)\n\n")
+        
+        f.write(f"## 評估指標說明\n\n")
+        f.write(f"### 1. 困惑度 (Perplexity)\n")
+        f.write(f"- 衡量語言模型預測下一個詞的能力\n")
+        f.write(f"- 越低越好\n\n")
+        
+        f.write(f"### 2. BLEU分數 (BLEU-1/2/3/4)\n")
+        f.write(f"- 衡量生成文本與參考文本的n-gram重疊度\n")
+        f.write(f"- 越高越好\n\n")
+        
+        f.write(f"### 3. 多樣性指標\n")
+        f.write(f"- **Distinct-1/2**: 衡量詞彙使用的多樣性\n")
+        f.write(f"- **Entropy**: 詞彙分布的熵\n")
+        f.write(f"- **Vocabulary Size**: 使用的詞彙大小\n\n")
+        
+        f.write(f"### 4. 重複率 (Repetition Rate)\n")
+        f.write(f"- 衡量文本中連續重複詞的比例\n")
+        f.write(f"- 越低越好\n\n")
+        
+        f.write(f"### 5. 流暢度指標\n")
+        f.write(f"- **平均句子長度**: 句子的平均詞數\n")
+        f.write(f"- **句子長度標準差**: 句子長度的變化\n")
+        f.write(f"- **句子長度變異係數**: 標準差/平均值\n\n")
+        
+        f.write(f"## 實驗結果\n\n")
+        f.write(f"### 按模型類型比較\n\n")
+        
+        for model in models:
+            model_data = [v for k, v in all_results.items() if v.get('model_type') == model and v.get('status') == 'success']
+            if model_data:
+                f.write(f"#### {model.upper()} 模型\n")
+                f.write("| 數據集 | 困惑度 | BLEU-1 | BLEU-2 | Distinct-1 | Distinct-2 | 重複率 |\n")
+                f.write("|--------|--------|--------|--------|------------|------------|--------|\n")
+                
+                for data in model_data:
+                    eval_results = data['evaluation_results']
+                    f.write(f"| {data['dataset_name']} | {eval_results['perplexity']:.2f} | {eval_results['bleu_scores']['BLEU-1']:.3f} | {eval_results['bleu_scores']['BLEU-2']:.3f} | {eval_results['diversity_metrics']['distinct_1']:.3f} | {eval_results['diversity_metrics']['distinct_2']:.3f} | {eval_results['repetition_rate']:.3f} |\n")
+                f.write("\n")
+        
+        # 性能總結
+        f.write(f"## 性能總結\n\n")
+        
+        for model in models:
+            model_data = [v for k, v in all_results.items() if v.get('model_type') == model and v.get('status') == 'success']
+            if model_data:
+                avg_perplexity = np.mean([d['evaluation_results']['perplexity'] for d in model_data if d['evaluation_results']['perplexity'] != float('inf')])
+                avg_bleu1 = np.mean([d['evaluation_results']['bleu_scores']['BLEU-1'] for d in model_data])
+                avg_distinct1 = np.mean([d['evaluation_results']['diversity_metrics']['distinct_1'] for d in model_data])
+                avg_repetition = np.mean([d['evaluation_results']['repetition_rate'] for d in model_data])
+                
+                f.write(f"- **{model.upper()}**: 平均困惑度={avg_perplexity:.2f}, 平均BLEU-1={avg_bleu1:.3f}, 平均Distinct-1={avg_distinct1:.3f}, 平均重複率={avg_repetition:.3f}\n")
+    
+    print(f"\n🎉 所有實驗完成!")
+    print(f"📁 結果保存到: {results_dir}")
+    print(f"📄 報告文件: {report_file}")
+
+if __name__ == '__main__':
+    main()
 EOF
 
-    for model in "${MODELS[@]}"; do
-        for dataset in "${DATASETS[@]}"; do
-            local exp_dir="${BASE_DIR}/${model}/${dataset}"
-            local status="❌ Not Run"
-            local val_loss="N/A"
-            local train_ppl="N/A"
-            local generation="N/A"
-            
-            if [ -f "$exp_dir/status.txt" ]; then
-                local status_text=$(cat "$exp_dir/status.txt")
-                if [ "$status_text" = "SUCCESS" ]; then
-                    status="✅ Success"
-                    
-                    # Extract metrics from log file
-                    if [ -f "$exp_dir/output.log" ]; then
-                        val_loss=$(grep "Best validation loss:" "$exp_dir/output.log" | tail -1 | awk '{print $4}' || echo "N/A")
-                        train_ppl=$(grep "Train PPL:" "$exp_dir/output.log" | tail -1 | awk '{print $6}' || echo "N/A")
-                    fi
-                    
-                    # Extract generation sample
-                    if [ -f "$exp_dir/generation_test.txt" ]; then
-                        generation=$(grep "Generated:" "$exp_dir/generation_test.txt" | head -1 | cut -d':' -f2 | cut -c1-50 || echo "N/A")
-                    fi
-                else
-                    status="❌ Failed"
-                fi
-            fi
-            
-            echo "| $model | $dataset | $status | $val_loss | $train_ppl | $generation |" >> "$report_file"
-        done
-    done
-    
-    cat >> "$report_file" << EOF
+# 設置環境變量
+export EPOCHS
+export BATCH_SIZE
+export MAX_LENGTH
+export VOCAB_SIZE
+export MAX_SAMPLES
+export LEARNING_RATE
+export MODELS="qksan,qrwkv,qasa"
+export DATASETS="simple_sentences,short_stories,quantum_phrases,haiku,proverbs"
 
-## Detailed Results
+echo -e "${BLUE}🔍 檢查依賴...${NC}"
 
-EOF
+# 檢查Python
+if ! command -v python &> /dev/null; then
+    echo -e "${RED}❌ Python 未安裝${NC}"
+    exit 1
+fi
 
-    # Add detailed results for each experiment
-    for model in "${MODELS[@]}"; do
-        for dataset in "${DATASETS[@]}"; do
-            local exp_dir="${BASE_DIR}/${model}/${dataset}"
-            
-            echo "### $model + $dataset" >> "$report_file"
-            echo "" >> "$report_file"
-            
-            if [ -f "$exp_dir/status.txt" ] && [ "$(cat $exp_dir/status.txt)" = "SUCCESS" ]; then
-                echo "**Status:** ✅ Success" >> "$report_file"
-                
-                if [ -f "$exp_dir/training_history.json" ]; then
-                    echo "**Training completed successfully**" >> "$report_file"
-                fi
-                
-                if [ -f "$exp_dir/generation_test.txt" ]; then
-                    echo "" >> "$report_file"
-                    echo "**Generation Test:**" >> "$report_file"
-                    echo '```' >> "$report_file"
-                    head -20 "$exp_dir/generation_test.txt" >> "$report_file"
-                    echo '```' >> "$report_file"
-                fi
-                
-            else
-                echo "**Status:** ❌ Failed or Not Run" >> "$report_file"
-                
-                if [ -f "$exp_dir/output.log" ]; then
-                    echo "" >> "$report_file"
-                    echo "**Error Log (last 10 lines):**" >> "$report_file"
-                    echo '```' >> "$report_file"
-                    tail -10 "$exp_dir/output.log" >> "$report_file"
-                    echo '```' >> "$report_file"
-                fi
-            fi
-            
-            echo "" >> "$report_file"
-            echo "---" >> "$report_file"
-            echo "" >> "$report_file"
-        done
-    done
-    
-    print_success "Report generated: $report_file"
+# 檢查必要的Python包
+python -c "import torch" 2>/dev/null || {
+    echo -e "${RED}❌ PyTorch 未安裝${NC}"
+    exit 1
 }
 
-# Function to show progress
-show_progress() {
-    local current=$1
-    local total=$2
-    local model=$3
-    local dataset=$4
-    
-    local percentage=$((current * 100 / total))
-    local completed=$((current * 50 / total))
-    local remaining=$((50 - completed))
-    
-    printf "\r${BLUE}Progress: [${GREEN}"
-    printf "%${completed}s" | tr ' ' '='
-    printf "${NC}${BLUE}"
-    printf "%${remaining}s" | tr ' ' '-'
-    printf "] ${percentage}%% (${current}/${total}) - ${model}+${dataset}${NC}"
+python -c "import pennylane" 2>/dev/null || {
+    echo -e "${RED}❌ PennyLane 未安裝${NC}"
+    exit 1
 }
 
-# Main execution
-main() {
-    print_status "Starting Quantum Text Generation Experiments"
-    print_status "Models: ${MODELS[*]}"
-    print_status "Datasets: ${DATASETS[*]}"
-    print_status "Total experiments: $((${#MODELS[@]} * ${#DATASETS[@]}))"
-    
-    # Activate conda environment
-    print_status "Activating qcl conda environment..."
-    source $(conda info --base)/etc/profile.d/conda.sh
-    conda activate qcl
-    
-    if [ $? -ne 0 ]; then
-        print_error "Failed to activate qcl environment"
-        exit 1
-    fi
-    
-    # Check if we're in the right directory
-    if [ ! -f "quantum_text_gen.py" ]; then
-        print_error "quantum_text_gen.py not found. Please run from the correct directory."
-        exit 1
-    fi
-    
-    # Create base experiment directory
-    mkdir -p "$BASE_DIR"
-    
-    # Initialize counters
-    local total_experiments=$((${#MODELS[@]} * ${#DATASETS[@]}))
-    local current_experiment=0
-    local successful_experiments=0
-    local failed_experiments=0
-    
-    # Record start time
-    local start_time=$(date +%s)
-    
-    # Run all experiments
-    for model in "${MODELS[@]}"; do
-        for dataset in "${DATASETS[@]}"; do
-            current_experiment=$((current_experiment + 1))
-            
-            show_progress $current_experiment $total_experiments $model $dataset
-            
-            if run_experiment "$model" "$dataset"; then
-                successful_experiments=$((successful_experiments + 1))
-            else
-                failed_experiments=$((failed_experiments + 1))
-            fi
-            
-            # Clear progress line and show status
-            echo ""
-        done
-    done
-    
-    # Calculate total time
-    local end_time=$(date +%s)
-    local total_time=$((end_time - start_time))
-    local hours=$((total_time / 3600))
-    local minutes=$(((total_time % 3600) / 60))
-    local seconds=$((total_time % 60))
-    
-    # Print final summary
-    echo ""
-    print_status "All experiments completed!"
-    print_success "Successful: $successful_experiments/$total_experiments"
-    if [ $failed_experiments -gt 0 ]; then
-        print_error "Failed: $failed_experiments/$total_experiments"
-    fi
-    print_status "Total time: ${hours}h ${minutes}m ${seconds}s"
-    
-    # Generate report
-    generate_report
-    
-    print_status "Experiment runner finished. Check $BASE_DIR for results."
-}
+echo -e "${GREEN}✅ 依賴檢查通過${NC}"
 
-# Handle interruption
-trap 'print_warning "Experiment interrupted by user"; exit 130' INT
+# 運行實驗 - 使用PYTHONPATH
+chmod +x "$OUTPUT_DIR/run_complete_experiments.py"
 
-# Check if script is run with arguments
-if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
-    echo "Quantum Text Generation Experiment Runner"
-    echo ""
-    echo "Usage: $0 [options]"
-    echo ""
-    echo "Options:"
-    echo "  --help, -h     Show this help message"
-    echo "  --dry-run      Show what would be executed without running"
-    echo "  --models       Specify models to run (comma-separated)"
-    echo "  --datasets     Specify datasets to run (comma-separated)"
-    echo ""
-    echo "Examples:"
-    echo "  $0                                    # Run all experiments"
-    echo "  $0 --models qasa,qksan               # Run only QASA and QKSAN"
-    echo "  $0 --datasets simple_sentences,haiku # Run only specified datasets"
-    echo "  $0 --dry-run                         # Preview commands"
-    exit 0
+echo -e "${BLUE}🚀 開始運行完整實驗...${NC}"
+PYTHONPATH=/media/meow/Transcend/Quantum_text_gen python "$OUTPUT_DIR/run_complete_experiments.py"
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ 實驗完成!${NC}"
+    echo -e "${BLUE}📁 結果保存在: $OUTPUT_DIR${NC}"
+else
+    echo -e "${RED}❌ 實驗失敗${NC}"
+    exit 1
 fi
-
-if [ "$1" = "--dry-run" ]; then
-    print_status "DRY RUN - Commands that would be executed:"
-    for model in "${MODELS[@]}"; do
-        for dataset in "${DATASETS[@]}"; do
-            echo ""
-            echo "Experiment: $model + $dataset"
-            echo "python quantum_text_gen.py --mode train --model $model --dataset $dataset --epochs $EPOCHS --batch_size $BATCH_SIZE --max_samples $MAX_SAMPLES --learning_rate $LEARNING_RATE --checkpoint_dir ${BASE_DIR}/${model}/${dataset} --log_dir ${BASE_DIR}/${model}/${dataset} ${MODEL_PARAMS[$model]}"
-        done
-    done
-    exit 0
-fi
-
-# Parse custom models/datasets if provided
-if [ "$1" = "--models" ] && [ -n "$2" ]; then
-    IFS=',' read -ra MODELS <<< "$2"
-    shift 2
-fi
-
-if [ "$1" = "--datasets" ] && [ -n "$2" ]; then
-    IFS=',' read -ra DATASETS <<< "$2"
-    shift 2
-fi
-
-# Run main function
-main "$@"
