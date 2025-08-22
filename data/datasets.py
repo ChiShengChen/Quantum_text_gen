@@ -243,12 +243,12 @@ def load_dataset(dataset_name: str,
     
     # Get base data
     if dataset_name == 'simple_sentences':
-        if max_samples and max_samples > 100:
+        if max_samples and max_samples > 10:
             texts = DatasetGenerator.generate_simple_sentences(max_samples)
         else:
             texts = SAMPLE_DATA[dataset_name]
     elif dataset_name == 'quantum_phrases':
-        if max_samples and max_samples > 50:
+        if max_samples and max_samples > 10:
             texts = DatasetGenerator.generate_quantum_phrases(max_samples)
         else:
             texts = SAMPLE_DATA[dataset_name]

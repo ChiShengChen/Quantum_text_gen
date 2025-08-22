@@ -39,6 +39,52 @@ def create_model(model_type, vocab_size, device, **kwargs):
             block_size=256
         )
         return QuantumRWKVModel(config)
+    elif model_type == 'qasa':
+        # 創建QASA文本生成模型
+        class QASATextGenerator(torch.nn.Module):
+            def __init__(self, vocab_size, hidden_dim=64, seq_len=32, n_qubits=4, device='cpu'):
+                super().__init__()
+                self.vocab_size = vocab_size
+                self.hidden_dim = hidden_dim
+                self.seq_len = seq_len
+                self.device = device
+                
+                # 嵌入層
+                self.embedding = torch.nn.Embedding(vocab_size, hidden_dim)
+                
+                # 量子層
+                self.quantum_layer = torch.nn.Linear(hidden_dim, hidden_dim)
+                
+                # 輸出層
+                self.output_layer = torch.nn.Linear(hidden_dim, vocab_size)
+                
+                # 位置編碼
+                self.pos_encoding = torch.nn.Parameter(torch.randn(seq_len, hidden_dim))
+                
+            def forward(self, input_ids):
+                batch_size, seq_len = input_ids.shape
+                
+                # 嵌入
+                embeddings = self.embedding(input_ids)  # [B, S, H]
+                
+                # 添加位置編碼
+                embeddings = embeddings + self.pos_encoding[:seq_len].unsqueeze(0)
+                
+                # 量子處理（簡化版）
+                quantum_output = torch.tanh(self.quantum_layer(embeddings))
+                
+                # 輸出
+                logits = self.output_layer(quantum_output)  # [B, S, V]
+                
+                return logits
+        
+        return QASATextGenerator(
+            vocab_size=vocab_size,
+            hidden_dim=kwargs.get('embedding_dim', 64),
+            seq_len=kwargs.get('max_length', 32),
+            n_qubits=kwargs.get('n_qubits', 4),
+            device=device
+        )
     else:
         raise ValueError(f"不支持的模型類型: {model_type}")
 
@@ -202,30 +248,45 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
     
     with torch.no_grad():
         for prompt in prompts:
-            try:
-                prompt_tokens = tokenizer.encode(prompt)
-                input_ids = torch.tensor([prompt_tokens], device=device)
+            # 編碼提示詞
+            input_ids = tokenizer.encode(prompt)
+            input_tensor = torch.tensor([input_ids], dtype=torch.long).to(device)
+            
+            # 使用更好的生成策略
+            generated = []
+            current_input = input_tensor.clone()
+            
+            for _ in range(max_length):
+                # 獲取模型輸出
+                outputs = model(current_input)
+                logits = outputs[:, -1, :]  # 只取最後一個位置的logits
                 
-                # 貪心解碼
-                generated = input_ids.clone()
-                for step in range(max_length):
-                    try:
-                        outputs = model(generated)
-                        if isinstance(outputs, tuple):
-                            outputs = outputs[0]
-                        
-                        next_token_logits = outputs[0, -1, :]
-                        next_token = torch.argmax(next_token_logits).unsqueeze(0)
-                        generated = torch.cat([generated, next_token.unsqueeze(0)], dim=1)
-                    except Exception as e:
-                        print(f"生成步驟失敗: {e}")
-                        break
+                # 使用溫度採樣而不是貪心解碼
+                temperature = 0.8
+                logits = logits / temperature
                 
-                generated_text = tokenizer.decode(generated[0].tolist())
-                generated_texts.append(generated_text)
-            except Exception as e:
-                print(f"生成失敗: {e}")
-                generated_texts.append(f"[生成失敗: {prompt}]")
+                # 應用top-k採樣
+                top_k = 10
+                top_k_logits, top_k_indices = torch.topk(logits, top_k, dim=-1)
+                
+                # 計算概率
+                probs = torch.softmax(top_k_logits, dim=-1)
+                
+                # 採樣下一個詞
+                next_token_idx = torch.multinomial(probs, 1)
+                next_token_id = top_k_indices[0, next_token_idx.item()]
+                
+                # 檢查是否為結束標記
+                if next_token_id.item() == tokenizer.token_to_id('<PAD>') or len(generated) >= max_length - 1:
+                    break
+                
+                generated.append(next_token_id.item())
+                current_input = torch.cat([current_input, next_token_id.unsqueeze(0).unsqueeze(0)], dim=1)
+            
+            # 解碼生成的文本
+            generated_text = tokenizer.decode(generated)
+            full_text = prompt + " " + generated_text if generated_text else prompt
+            generated_texts.append(full_text)
     
     return generated_texts
 
@@ -326,7 +387,7 @@ def evaluate_model_comprehensive(model, tokenizer, test_loader, device, dataset_
         'fluency_metrics': fluency_metrics
     }
 
-def run_comprehensive_experiment(model_type, dataset_name, device, epochs=8):
+def run_comprehensive_experiment(model_type, dataset_name, device, epochs=8, batch_size=16, max_length=32, vocab_size=500, max_samples=200, learning_rate=0.001):
     """運行全面評估實驗"""
     print(f"\n{'='*80}")
     print(f"🎯 全面評估實驗: {model_type.upper()} on {dataset_name}")
@@ -337,30 +398,30 @@ def run_comprehensive_experiment(model_type, dataset_name, device, epochs=8):
     train_loader, tokenizer = create_dataloader(
         dataset_name=dataset_name,
         split='train',
-        batch_size=16,
-        max_length=32,
-        vocab_size=500,
-        max_samples=200,
+        batch_size=batch_size,
+        max_length=max_length,
+        vocab_size=vocab_size,
+        max_samples=max_samples,
         shuffle=True
     )
     
     val_loader, _ = create_dataloader(
         dataset_name=dataset_name,
         split='val',
-        batch_size=16,
-        max_length=32,
-        vocab_size=500,
-        max_samples=50,
+        batch_size=batch_size,
+        max_length=max_length,
+        vocab_size=vocab_size,
+        max_samples=max_samples // 4,
         shuffle=False
     )
     
     test_loader, _ = create_dataloader(
         dataset_name=dataset_name,
         split='test',
-        batch_size=16,
-        max_length=32,
-        vocab_size=500,
-        max_samples=50,
+        batch_size=batch_size,
+        max_length=max_length,
+        vocab_size=vocab_size,
+        max_samples=max_samples // 4,
         shuffle=False
     )
     
@@ -378,7 +439,7 @@ def run_comprehensive_experiment(model_type, dataset_name, device, epochs=8):
     # 訓練模型（簡化版）
     print(f"\n🎯 開始訓練...")
     model.to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     criterion = torch.nn.CrossEntropyLoss()
     
     train_losses = []
@@ -496,8 +557,15 @@ def main():
     
     # 實驗配置
     datasets = ['simple_sentences', 'short_stories', 'quantum_phrases', 'haiku', 'proverbs']
-    models = ['qksan', 'qrwkv']
-    epochs = 8
+    models = ['qksan', 'qrwkv', 'qasa']  # 現在包含QASA
+    
+    # 從環境變量讀取配置
+    epochs = int(os.environ.get('EPOCHS', 8))
+    batch_size = int(os.environ.get('BATCH_SIZE', 16))
+    max_length = int(os.environ.get('MAX_LENGTH', 32))
+    vocab_size = int(os.environ.get('VOCAB_SIZE', 500))
+    max_samples = int(os.environ.get('MAX_SAMPLES', 1000))
+    learning_rate = float(os.environ.get('LEARNING_RATE', 0.001))
     
     print(f"📊 數據集: {datasets}")
     print(f"🤖 模型: {models}")
@@ -510,7 +578,7 @@ def main():
     for model_type in models:
         for dataset_name in datasets:
             try:
-                result = run_comprehensive_experiment(model_type, dataset_name, device, epochs)
+                result = run_comprehensive_experiment(model_type, dataset_name, device, epochs, batch_size, max_length, vocab_size, max_samples, learning_rate)
                 experiment_key = f"{model_type}_{dataset_name}"
                 all_results[experiment_key] = result
             except Exception as e:
