@@ -19,6 +19,7 @@ sys.path.append('.')
 from data.datasets import create_dataloader
 from qksan_fixed import create_fixed_qksan_model
 from qrwkv_model import QuantumRWKVModel, ModelConfig
+from transformer_baseline import create_transformer_baseline_model
 
 def create_model(model_type, vocab_size, device, **kwargs):
     """創建模型"""
@@ -84,6 +85,16 @@ def create_model(model_type, vocab_size, device, **kwargs):
             seq_len=kwargs.get('max_length', 32),
             n_qubits=kwargs.get('n_qubits', 4),
             device=device
+        )
+    elif model_type == 'transformer':
+        return create_transformer_baseline_model(
+            vocab_size=vocab_size,
+            d_model=kwargs.get('embedding_dim', 256),
+            n_heads=kwargs.get('n_heads', 8),
+            n_layers=kwargs.get('n_layers', 6),
+            d_ff=kwargs.get('d_ff', 1024),
+            max_len=kwargs.get('max_length', 512),
+            dropout=kwargs.get('dropout', 0.1)
         )
     else:
         raise ValueError(f"不支持的模型類型: {model_type}")
@@ -259,7 +270,20 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
             for _ in range(max_length):
                 # 獲取模型輸出
                 outputs = model(current_input)
-                logits = outputs[:, -1, :]  # 只取最後一個位置的logits
+                
+                # 處理不同模型的輸出格式
+                if isinstance(outputs, tuple):
+                    # 如果輸出是元組，取第一個元素（通常是logits）
+                    logits = outputs[0]
+                else:
+                    # 如果輸出是張量，直接使用
+                    logits = outputs
+                
+                # 確保logits的形狀正確
+                if len(logits.shape) == 3:
+                    logits = logits[:, -1, :]  # 只取最後一個位置的logits
+                elif len(logits.shape) == 2:
+                    logits = logits[-1:]  # 如果只有一個token，取最後一個
                 
                 # 使用溫度採樣而不是貪心解碼
                 temperature = 0.8
@@ -557,7 +581,7 @@ def main():
     
     # 實驗配置
     datasets = ['simple_sentences', 'short_stories', 'quantum_phrases', 'haiku', 'proverbs']
-    models = ['qksan', 'qrwkv', 'qasa']  # 現在包含QASA
+    models = ['qksan', 'qrwkv', 'qasa', 'transformer']  # 包含Transformer baseline
     
     # 從環境變量讀取配置
     epochs = int(os.environ.get('EPOCHS', 8))

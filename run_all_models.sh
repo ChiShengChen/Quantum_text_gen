@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 量子文字生成模型完整評估腳本
-# 包含所有三個模型: QKSAN, QRWKV, QASA
+# 包含所有四個模型: QKSAN, QRWKV, QASA, TRANSFORMER (baseline)
 
 set -e
 
@@ -23,7 +23,7 @@ LEARNING_RATE=${6:-0.001}
 
 echo -e "${CYAN}🚀 量子文字生成模型完整評估系統${NC}"
 echo -e "${CYAN}====================================${NC}"
-echo -e "${GREEN}✅ 包含所有三個模型: QKSAN, QRWKV, QASA${NC}"
+echo -e "${GREEN}✅ 包含所有四個模型: QKSAN, QRWKV, QASA, TRANSFORMER (baseline)${NC}"
 echo -e "${GREEN}✅ 包含完整評估指標: 困惑度、BLEU、多樣性、重複率、流暢度${NC}"
 echo -e "${YELLOW}⚠️  強制使用CPU以避免CUDA錯誤${NC}"
 echo ""
