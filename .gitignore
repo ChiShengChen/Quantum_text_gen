@@ -179,6 +179,7 @@ data/external/
 
 # Model files
 # *.pth
+experiments_rev/**/*.pt
 # *.pt
 # *.ckpt
 *.model
@@ -269,3 +270,14 @@ slurm-*.out
 
 # Conda environment files
 environment.yml.lock
+# ---- revised experiments ----
+!experiments_rev/**/*.json
+!corpora/**/meta.json
+corpora/_raw/
+# not redistributed (license): rebuild with `python -m qnlg.prepare_data haiku ptb`
+corpora/haiku/
+corpora/ptb/
+*.pth
+experiments_rev/**/*.pt
+# manuscript, reviews and submission files stay private
+asoc_paper/

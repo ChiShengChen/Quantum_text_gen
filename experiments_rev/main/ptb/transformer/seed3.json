@@ -1,0 +1,563 @@
+{
+ "args": {
+  "model": "transformer",
+  "dataset": "ptb",
+  "seed": 3,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 10002,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 4,
+  "q_depth": 2,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 1394450,
+  "circuit": 0,
+  "embedding_and_head": 1290258,
+  "body": 104192
+ },
+ "hilbert_dims": [],
+ "vocab_size": 10002,
+ "corpus_meta": {
+  "origin": "Penn Treebank (Mikolov et al. 2010 pre-processing), standard splits",
+  "license": "LDC; not redistributed, rebuild with this script",
+  "seed": null,
+  "tokenisation": "as distributed (whitespace)",
+  "test_in_train": 64,
+  "sizes": {
+   "train": 42068,
+   "valid": 3370,
+   "test": 3761
+  },
+  "avg_len": 21.1,
+  "max_len": 82,
+  "train_types": 9999
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 6.307620661599295,
+   "val_nll": 5.818674326373066,
+   "val_ppl": 336.52563463388344,
+   "sec": 15.294035911560059
+  },
+  {
+   "epoch": 2,
+   "train_loss": 5.690097524040014,
+   "val_nll": 5.541565263423798,
+   "val_ppl": 255.0769497656609,
+   "sec": 14.618283987045288
+  },
+  {
+   "epoch": 3,
+   "train_loss": 5.4463084693375325,
+   "val_nll": 5.394784877311612,
+   "val_ppl": 220.25476020353472,
+   "sec": 14.600564002990723
+  },
+  {
+   "epoch": 4,
+   "train_loss": 5.287184814551681,
+   "val_nll": 5.305677731275685,
+   "val_ppl": 201.47750375850012,
+   "sec": 14.857467889785767
+  },
+  {
+   "epoch": 5,
+   "train_loss": 5.169836961752013,
+   "val_nll": 5.249169350355939,
+   "val_ppl": 190.40804038071096,
+   "sec": 14.822643995285034
+  },
+  {
+   "epoch": 6,
+   "train_loss": 5.077942048162675,
+   "val_nll": 5.199584310279937,
+   "val_ppl": 181.1969045272362,
+   "sec": 14.193394422531128
+  },
+  {
+   "epoch": 7,
+   "train_loss": 5.005202640516055,
+   "val_nll": 5.165211471853766,
+   "val_ppl": 175.07447798178399,
+   "sec": 12.88845157623291
+  },
+  {
+   "epoch": 8,
+   "train_loss": 4.943871753918726,
+   "val_nll": 5.141455192693711,
+   "val_ppl": 170.96437350043527,
+   "sec": 14.924773454666138
+  },
+  {
+   "epoch": 9,
+   "train_loss": 4.8912130148577475,
+   "val_nll": 5.116440353065536,
+   "val_ppl": 166.74077368924583,
+   "sec": 15.347226619720459
+  },
+  {
+   "epoch": 10,
+   "train_loss": 4.84524646356113,
+   "val_nll": 5.097950817413978,
+   "val_ppl": 163.68614060486345,
+   "sec": 15.199354410171509
+  },
+  {
+   "epoch": 11,
+   "train_loss": 4.8056312216089125,
+   "val_nll": 5.084270743797554,
+   "val_ppl": 161.4621490195639,
+   "sec": 15.229535102844238
+  },
+  {
+   "epoch": 12,
+   "train_loss": 4.770425886368679,
+   "val_nll": 5.0698386491096015,
+   "val_ppl": 159.14864649572118,
+   "sec": 15.393735408782959
+  },
+  {
+   "epoch": 13,
+   "train_loss": 4.736187196430102,
+   "val_nll": 5.05598600720016,
+   "val_ppl": 156.9592169886456,
+   "sec": 14.766309261322021
+  },
+  {
+   "epoch": 14,
+   "train_loss": 4.707426508146941,
+   "val_nll": 5.0486822849912185,
+   "val_ppl": 155.8170067403413,
+   "sec": 15.444259643554688
+  },
+  {
+   "epoch": 15,
+   "train_loss": 4.679461226274902,
+   "val_nll": 5.041516045235383,
+   "val_ppl": 154.7043761623347,
+   "sec": 15.39478611946106
+  },
+  {
+   "epoch": 16,
+   "train_loss": 4.6552128030898725,
+   "val_nll": 5.0331422645113655,
+   "val_ppl": 153.41432448246536,
+   "sec": 14.984315156936646
+  },
+  {
+   "epoch": 17,
+   "train_loss": 4.630334441785029,
+   "val_nll": 5.027640065745752,
+   "val_ppl": 152.57252636966774,
+   "sec": 17.27540874481201
+  },
+  {
+   "epoch": 18,
+   "train_loss": 4.608608693699706,
+   "val_nll": 5.018013856959759,
+   "val_ppl": 151.1108777301355,
+   "sec": 17.274912357330322
+  },
+  {
+   "epoch": 19,
+   "train_loss": 4.588358159485559,
+   "val_nll": 5.015240731245592,
+   "val_ppl": 150.69240877110394,
+   "sec": 17.579419136047363
+  },
+  {
+   "epoch": 20,
+   "train_loss": 4.567961305108114,
+   "val_nll": 5.009837677460973,
+   "val_ppl": 149.8804052064464,
+   "sec": 17.1677463054657
+  },
+  {
+   "epoch": 21,
+   "train_loss": 4.549617860817257,
+   "val_nll": 5.008079597413232,
+   "val_ppl": 149.61713494940935,
+   "sec": 16.26022505760193
+  },
+  {
+   "epoch": 22,
+   "train_loss": 4.532643741387364,
+   "val_nll": 5.006569297037118,
+   "val_ppl": 149.39133868723226,
+   "sec": 17.287407398223877
+  },
+  {
+   "epoch": 23,
+   "train_loss": 4.515335067789605,
+   "val_nll": 5.003194122680759,
+   "val_ppl": 148.88796683357822,
+   "sec": 17.161232709884644
+  },
+  {
+   "epoch": 24,
+   "train_loss": 4.500340938568115,
+   "val_nll": 4.995099101537599,
+   "val_ppl": 147.68758072460253,
+   "sec": 17.075783252716064
+  },
+  {
+   "epoch": 25,
+   "train_loss": 4.483409064156668,
+   "val_nll": 4.992668105808615,
+   "val_ppl": 147.32898889084387,
+   "sec": 16.970537424087524
+  },
+  {
+   "epoch": 26,
+   "train_loss": 4.469882817978554,
+   "val_nll": 4.993011951013227,
+   "val_ppl": 147.3796559674908,
+   "sec": 16.532554149627686
+  },
+  {
+   "epoch": 27,
+   "train_loss": 4.455096779623292,
+   "val_nll": 4.986234986598242,
+   "val_ppl": 146.3842460220957,
+   "sec": 17.110569715499878
+  },
+  {
+   "epoch": 28,
+   "train_loss": 4.441593133932189,
+   "val_nll": 4.985129153506497,
+   "val_ppl": 146.22245894997045,
+   "sec": 17.32231903076172
+  },
+  {
+   "epoch": 29,
+   "train_loss": 4.427969987631569,
+   "val_nll": 4.982014699125877,
+   "val_ppl": 145.76776420271062,
+   "sec": 17.13488245010376
+  },
+  {
+   "epoch": 30,
+   "train_loss": 4.415426047014972,
+   "val_nll": 4.982459106519816,
+   "val_ppl": 145.8325588714688,
+   "sec": 16.03219771385193
+  },
+  {
+   "epoch": 31,
+   "train_loss": 4.404142494984311,
+   "val_nll": 4.9773723749593115,
+   "val_ppl": 145.09263129364768,
+   "sec": 17.166560888290405
+  },
+  {
+   "epoch": 32,
+   "train_loss": 4.392745836165176,
+   "val_nll": 4.97466038787747,
+   "val_ppl": 144.69967503889745,
+   "sec": 17.78603506088257
+  },
+  {
+   "epoch": 33,
+   "train_loss": 4.3815469408470085,
+   "val_nll": 4.981378339472627,
+   "val_ppl": 145.67503298715903,
+   "sec": 18.88222074508667
+  },
+  {
+   "epoch": 34,
+   "train_loss": 4.36921620695062,
+   "val_nll": 4.975276701317543,
+   "val_ppl": 144.78888288057027,
+   "sec": 18.98163080215454
+  },
+  {
+   "epoch": 35,
+   "train_loss": 4.360049518408384,
+   "val_nll": 4.979003091686333,
+   "val_ppl": 145.32942929722327,
+   "sec": 18.692952156066895
+  },
+  {
+   "epoch": 36,
+   "train_loss": 4.350039021947102,
+   "val_nll": 4.978970932977648,
+   "val_ppl": 145.324755765591,
+   "sec": 18.890952110290527
+  },
+  {
+   "epoch": 37,
+   "train_loss": 4.340350941684108,
+   "val_nll": 4.975307608379617,
+   "val_ppl": 144.79335794871636,
+   "sec": 18.871418476104736
+  }
+ ],
+ "best_epoch": 32,
+ "epochs_run": 37,
+ "train_seconds": 605.4270825386047,
+ "valid": {
+  "nll": 4.97466038787747,
+  "ppl": 144.69967503889745,
+  "acc": 0.23615575538104733,
+  "brier": 0.8888474482382538,
+  "tokens": 73731
+ },
+ "test": {
+  "nll": 4.891477390361654,
+  "ppl": 133.15014354932046,
+  "acc": 0.23326416948782353,
+  "brier": 0.8937248243033563,
+  "tokens": 82413
+ },
+ "prompted": {
+  "bleu1": 0.10062677084227699,
+  "bleu2": 0.03894326934735359,
+  "bleu3": 0.017709245912809004,
+  "bleu4": 0.009267942996727944,
+  "n": 1000,
+  "exact_match": 0.003,
+  "mean_len": 23.294,
+  "ref_mean_len": 19.878,
+  "seconds": 1.92305326461792,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.005,
+  "gen_distinct1": 0.013093500472224608,
+  "gen_distinct2": 0.023593792051673095,
+  "gen_consec_rep": 0.7377321252354894,
+  "gen_seq_rep2": 0.5112676376728793
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 18.909,
+  "empty_rate": 0.002,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.05431276111904384,
+  "distinct1": 0.1673277275371516,
+  "distinct2": 0.6246440734744012,
+  "novelty": 0.994,
+  "unique_rate": 0.995,
+  "self_bleu4": 0.25758864217394367,
+  "consec_rep": 0.021941823460443304,
+  "seq_rep2": 0.018169701528845818,
+  "test_bleu1": 0.9579587506435109,
+  "test_bleu2": 0.7492278539725792,
+  "test_bleu3": 0.4901427781465529,
+  "test_bleu4": 0.30596603330542027
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "no it",
+    "reference": "was n't black monday",
+    "generated": "is n't clear how much of the <unk> of the <unk> <unk>"
+   },
+   {
+    "prompt": "but while",
+    "reference": "the new york stock exchange did n't fall apart friday as the dow jones industrial average plunged N points most of it in the final hour it barely managed to stay this side of chaos",
+    "generated": "the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "some circuit",
+    "reference": "breakers installed after the october N crash failed their first test traders say unable to cool the selling panic in both stocks and futures",
+    "generated": "breakers are <unk>"
+   },
+   {
+    "prompt": "the N",
+    "reference": "stock specialist firms on the big board floor the buyers and sellers of last resort who were criticized after the N crash once again could n't handle the selling pressure",
+    "generated": "N <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "big investment",
+    "reference": "banks refused to step up to the plate to support the beleaguered floor traders by buying big blocks of stock traders say",
+    "generated": "bankers trust N N N securities at N N"
+   },
+   {
+    "prompt": "heavy selling",
+    "reference": "of standard & poor 's 500-stock index futures in chicago <unk> beat stocks downward",
+    "generated": "by the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "seven big",
+    "reference": "board stocks ual amr bankamerica walt disney capital cities\\/abc philip morris and pacific telesis group stopped trading and never resumed",
+    "generated": "board members of the <unk> of the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the <unk>",
+    "reference": "has already begun",
+    "generated": "of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the equity",
+    "reference": "market was <unk>",
+    "generated": "market is n't clear that the company 's <unk>"
+   },
+   {
+    "prompt": "once again",
+    "reference": "the specialists were not able to handle the imbalances on the floor of the new york stock exchange said christopher <unk> senior vice president at <unk> securities corp",
+    "generated": "is n't clear how much of the <unk> of the <unk> <unk>"
+   },
+   {
+    "prompt": "<unk> james",
+    "reference": "<unk> chairman of specialists henderson brothers inc. it is easy to say the specialist is n't doing his job",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "when the",
+    "reference": "dollar is in a <unk> even central banks ca n't stop it",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "speculators are",
+    "reference": "calling for a degree of liquidity that is not there in the market",
+    "generated": "n't predicting that the company 's <unk> <unk>"
+   },
+   {
+    "prompt": "many money",
+    "reference": "managers and some traders had already left their offices early friday afternoon on a warm autumn day because the stock market was so quiet",
+    "generated": "managers are n't going to be able to be able to be able to be able to be able to be reached for comment"
+   },
+   {
+    "prompt": "then in",
+    "reference": "a <unk> plunge the dow jones industrials in barely an hour surrendered about a third of their gains this year <unk> up a 190.58-point or N N loss on the day in <unk> trading volume",
+    "generated": "the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "<unk> trading",
+    "reference": "accelerated to N million shares a record for the big board",
+    "generated": "in the dow jones industrial average fell N points to N"
+   },
+   {
+    "prompt": "at the",
+    "reference": "end of the day N million shares were traded",
+    "generated": "same time the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "jones industrials closed at N",
+    "generated": "jones industrials rose N points to N"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "'s decline was second in point terms only to the <unk> black monday crash that occurred oct. N N",
+    "generated": "jones industrials rose N points to N"
+   },
+   {
+    "prompt": "in percentage",
+    "reference": "terms however the dow 's dive was the <unk> ever and the sharpest since the market fell N or N N a week after black monday",
+    "generated": "the company 's earnings report is n't expected to be delivered"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "fell N N on black monday",
+    "generated": "jones industrials rose N points to N"
+   },
+   {
+    "prompt": "shares of",
+    "reference": "ual the parent of united airlines were extremely active all day friday reacting to news and rumors about the proposed $ N billion buy-out of the airline by an <unk> group",
+    "generated": "the new york stock exchange was quoted at $ N up N cents"
+   },
+   {
+    "prompt": "wall street",
+    "reference": "'s takeover-stock speculators or risk arbitragers had placed unusually large bets that a takeover would succeed and ual stock would rise",
+    "generated": "'s <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "at N",
+    "reference": "p.m. edt came the <unk> news the big board was <unk> trading in ual pending news",
+    "generated": "a.m. edt monday 's close to N N in the past N"
+   },
+   {
+    "prompt": "on the",
+    "reference": "exchange floor as soon as ual stopped trading we <unk> for a panic said one top floor trader",
+    "generated": "new york stock exchange composite trading yesterday the new york stock exchange composite index rose N N to N"
+   },
+   {
+    "prompt": "several traders",
+    "reference": "could be seen shaking their heads when the news <unk>",
+    "generated": "say that the market is n't clear how much of the market 's volatility"
+   },
+   {
+    "prompt": "for weeks",
+    "reference": "the market had been nervous about takeovers after campeau corp. 's cash crunch spurred concern about the prospects for future highly leveraged takeovers",
+    "generated": "the company 's <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "and N",
+    "reference": "minutes after the ual trading halt came news that the ual group could n't get financing for its bid",
+    "generated": "N of the company 's <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "at this",
+    "reference": "point the dow was down about N points",
+    "generated": "time the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the market",
+    "reference": "<unk>",
+    "generated": "is n't clear how much of the <unk> of the <unk> <unk>"
+   }
+  ],
+  "free": [
+   "the sales of domestic exploration in new products operations fell N N to $ N million",
+   "mr. <unk> at quotron",
+   "yet other men find a concerned that as they wanted a costly approach to install the N and about N",
+   "the bay bridge and two only on saturday <unk> of a cell robot living and N employees is eligible and spent photographs or <unk> power",
+   "for the u.s. attorney time after the third quarter gold could n't identify it",
+   "interpublic said that its earnings were strong growth and some problems boosted losses to profit from the company",
+   "the exception on wall street journal survey was also a reputation in by former new york city said mr. hollander 's largest insurer",
+   "i have worried about our plate to attract complaints or we feel that the younger member could have <unk> the battle for most",
+   "if one late was n't yet among my kind of time in the genes we 'd just now be reached of between $ N a good high degree of the security office",
+   "however in the latest quarter fell N N",
+   "producers <unk> telephone & telegraph co. and unicorp canada had its N N stake under $ N million in N years ago",
+   "mr. <unk> N years old has been the number of economic policies by salomon brothers ' wildlife refuge on their shares",
+   "the weather of the <unk> which saw the economy which wages",
+   "the selling rocked that the 13th boom more <unk> couples have <unk> the shares outstanding by their refineries",
+   "municipal bonds were priced at N and N at par via alex brown & sons & co",
+   "by his of <unk> were found around N points last month",
+   "she has shown the somewhat greater salaries of seeing scenes but just about N miles",
+   "back <unk> merchandise <unk> ibm 's common luxury computer associates and plastics corp. will join last year by <unk> securities",
+   "one will have yet been paying for seven years to schedule although <unk> <unk> assets as the facility will produce its hospitals and N to the company 's loans but on the earthquake he has total incentive into the fourth quarter and is naturally",
+   "a bidding is constantly said president of the small-business advocate frankly all the federal reserve is the three to receive debt payments and future income that would use their grants reserves must be available",
+   "one person familiar with mr. peters received a form of as a result of the <unk> manufacturer of the national software",
+   "it was n't abandoning the contest for the sandinistas and other expect a text from the statute of white-collar law",
+   "michael <unk> vice president and chief executive officer said the program is seeking to block the application by a position of its own existing printing headquarters",
+   "<unk> inc. palo alto calif. power co. group <unk> <unk> calif. has already been elected to build a subsidiary of the plant together",
+   "similarly farmers ' list is finding for us to get <unk> mr. <unk> but is n't providing any <unk>",
+   "federal national services inc. received <unk> va. assembly calif. nyse to break down N N as an <unk> car company said that at N p.m. edt",
+   "goodson is now capitalized at the backer spielvogel of closely held computer corp. and operating profit surged to $ N million from $ N million",
+   "it 's surprising more than N N of the year",
+   "the u.s. government expects this fall that the two increase has been introduced with the setting of britain 's reputation for jaguar",
+   "this news is no role"
+  ]
+ },
+ "peak_vram_mb": 2512.97314453125
+}

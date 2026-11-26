@@ -1,0 +1,473 @@
+{
+ "args": {
+  "model": "qasa_c",
+  "dataset": "quantum_phrases",
+  "seed": 0,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 34,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 8,
+  "q_depth": 4,
+  "n_quantum_layers": 1,
+  "classical_surrogate": true,
+  "window": 4
+ },
+ "params": {
+  "total": 109762,
+  "circuit": 0,
+  "embedding_and_head": 4386,
+  "body": 105376
+ },
+ "hilbert_dims": [],
+ "vocab_size": 34,
+ "corpus_meta": {
+  "origin": "synthetic grammar + 10 hand-written phrases (this work)",
+  "license": "released with this paper",
+  "unique_after_filter": 739,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 591,
+   "valid": 74,
+   "test": 74
+  },
+  "avg_len": 7.09,
+  "max_len": 8,
+  "train_types": 61
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 2.4999835729599,
+   "val_nll": 1.6598629760742187,
+   "val_ppl": 5.258590242399077,
+   "sec": 0.4560971260070801
+  },
+  {
+   "epoch": 2,
+   "train_loss": 1.4943121671676636,
+   "val_nll": 1.2395222981770833,
+   "val_ppl": 3.45396310613231,
+   "sec": 0.050283193588256836
+  },
+  {
+   "epoch": 3,
+   "train_loss": 1.2177180290222167,
+   "val_nll": 1.0834653727213541,
+   "val_ppl": 2.9549016647422457,
+   "sec": 0.06506204605102539
+  },
+  {
+   "epoch": 4,
+   "train_loss": 1.0859055638313293,
+   "val_nll": 0.9936793009440105,
+   "val_ppl": 2.7011545722094126,
+   "sec": 0.07294201850891113
+  },
+  {
+   "epoch": 5,
+   "train_loss": 1.0026829540729523,
+   "val_nll": 0.9354004923502605,
+   "val_ppl": 2.5482338015496198,
+   "sec": 0.0800638198852539
+  },
+  {
+   "epoch": 6,
+   "train_loss": 0.9716899216175079,
+   "val_nll": 0.8997048950195312,
+   "val_ppl": 2.4588773771180024,
+   "sec": 0.0504913330078125
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.9207269549369812,
+   "val_nll": 0.880537618001302,
+   "val_ppl": 2.4121961979760864,
+   "sec": 0.06689691543579102
+  },
+  {
+   "epoch": 8,
+   "train_loss": 0.9037435352802277,
+   "val_nll": 0.8722475179036459,
+   "val_ppl": 2.3922815114661686,
+   "sec": 0.0767676830291748
+  },
+  {
+   "epoch": 9,
+   "train_loss": 0.8853805005550385,
+   "val_nll": 0.8622177124023438,
+   "val_ppl": 2.368407320088807,
+   "sec": 0.08315348625183105
+  },
+  {
+   "epoch": 10,
+   "train_loss": 0.8791748762130738,
+   "val_nll": 0.8568861897786458,
+   "val_ppl": 2.355813704284662,
+   "sec": 0.05218768119812012
+  },
+  {
+   "epoch": 11,
+   "train_loss": 0.8712185204029084,
+   "val_nll": 0.8537320963541667,
+   "val_ppl": 2.3483949536373294,
+   "sec": 0.07750582695007324
+  },
+  {
+   "epoch": 12,
+   "train_loss": 0.8707653820514679,
+   "val_nll": 0.852718505859375,
+   "val_ppl": 2.346015848757036,
+   "sec": 0.06387186050415039
+  },
+  {
+   "epoch": 13,
+   "train_loss": 0.8617334306240082,
+   "val_nll": 0.850459696451823,
+   "val_ppl": 2.3407226265282794,
+   "sec": 0.07724785804748535
+  },
+  {
+   "epoch": 14,
+   "train_loss": 0.863739424943924,
+   "val_nll": 0.8544467163085937,
+   "val_ppl": 2.3500737633160775,
+   "sec": 0.05615401268005371
+  },
+  {
+   "epoch": 15,
+   "train_loss": 0.8591029167175293,
+   "val_nll": 0.8483900960286458,
+   "val_ppl": 2.3358832754787104,
+   "sec": 0.07567596435546875
+  },
+  {
+   "epoch": 16,
+   "train_loss": 0.8547284841537476,
+   "val_nll": 0.8503654988606771,
+   "val_ppl": 2.3405021464798277,
+   "sec": 0.06335043907165527
+  },
+  {
+   "epoch": 17,
+   "train_loss": 0.8495080471038818,
+   "val_nll": 0.84957275390625,
+   "val_ppl": 2.3386474604560044,
+   "sec": 0.07431602478027344
+  },
+  {
+   "epoch": 18,
+   "train_loss": 0.8534941852092743,
+   "val_nll": 0.8474620564778645,
+   "val_ppl": 2.333716489000346,
+   "sec": 0.05762529373168945
+  },
+  {
+   "epoch": 19,
+   "train_loss": 0.8483604848384857,
+   "val_nll": 0.8425392659505209,
+   "val_ppl": 2.3222563227174677,
+   "sec": 0.08156919479370117
+  },
+  {
+   "epoch": 20,
+   "train_loss": 0.8460055470466614,
+   "val_nll": 0.8455821736653646,
+   "val_ppl": 2.3293334965303085,
+   "sec": 0.06005716323852539
+  },
+  {
+   "epoch": 21,
+   "train_loss": 0.8435720264911651,
+   "val_nll": 0.8478613789876303,
+   "val_ppl": 2.334648580616011,
+   "sec": 0.07040786743164062
+  },
+  {
+   "epoch": 22,
+   "train_loss": 0.8428486764431,
+   "val_nll": 0.8470885213216146,
+   "val_ppl": 2.33284492663671,
+   "sec": 0.04524350166320801
+  },
+  {
+   "epoch": 23,
+   "train_loss": 0.8462113797664642,
+   "val_nll": 0.8444971720377604,
+   "val_ppl": 2.326807536478527,
+   "sec": 0.06499290466308594
+  },
+  {
+   "epoch": 24,
+   "train_loss": 0.8398081183433532,
+   "val_nll": 0.8456138610839844,
+   "val_ppl": 2.329407308265364,
+   "sec": 0.07448387145996094
+  }
+ ],
+ "best_epoch": 19,
+ "epochs_run": 24,
+ "train_seconds": 2.0028297901153564,
+ "valid": {
+  "nll": 0.8425392659505209,
+  "ppl": 2.3222563227174677,
+  "acc": 0.6516666666666666,
+  "brier": 0.33256540934244794,
+  "tokens": 600
+ },
+ "test": {
+  "nll": 0.8746486682796952,
+  "ppl": 2.398032641017295,
+  "acc": 0.648424543946932,
+  "brier": 0.3377582556375026,
+  "tokens": 603
+ },
+ "prompted": {
+  "bleu1": 0.7696335078534031,
+  "bleu2": 0.7414433355930095,
+  "bleu3": 0.7015938978147974,
+  "bleu4": 0.6321822335812111,
+  "n": 74,
+  "exact_match": 0.013513513513513514,
+  "mean_len": 5.162162162162162,
+  "ref_mean_len": 5.148648648648648,
+  "seconds": 0.029023408889770508,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.02356020942408377,
+  "gen_distinct2": 0.02922077922077922,
+  "gen_consec_rep": 0.0,
+  "gen_seq_rep2": 0.0
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 7.101,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.0,
+  "distinct1": 0.004224757076468103,
+  "distinct2": 0.02851991476807081,
+  "novelty": 0.168,
+  "unique_rate": 0.533,
+  "self_bleu4": 0.9703870660745102,
+  "consec_rep": 0.0,
+  "seq_rep2": 0.0,
+  "test_bleu1": 1.0,
+  "test_bleu2": 0.944102372775475,
+  "test_bleu3": 0.8753874625510051,
+  "test_bleu4": 0.821623925656118
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "superposition creates",
+    "reference": "algorithms in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "wave function",
+    "reference": "observes states in quantum systems .",
+    "generated": "determines gates in quantum systems ."
+   },
+   {
+    "prompt": "wave function",
+    "reference": "measures systems in quantum systems .",
+    "generated": "determines gates in quantum systems ."
+   },
+   {
+    "prompt": "entanglement observes",
+    "reference": "gates in quantum systems .",
+    "generated": "information in quantum systems ."
+   },
+   {
+    "prompt": "entanglement controls",
+    "reference": "systems in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "decoherence influences",
+    "reference": "gates in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "quantum measures",
+    "reference": "circuits in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "probability affects",
+    "reference": "states in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement affects",
+    "reference": "circuits in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement manipulates",
+    "reference": "particles in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "decoherence affects",
+    "reference": "systems in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "probability manipulates",
+    "reference": "gates in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "measurement creates",
+    "reference": "algorithms in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement affects",
+    "reference": "particles in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "wave function",
+    "reference": "measures particles in quantum systems .",
+    "generated": "determines gates in quantum systems ."
+   },
+   {
+    "prompt": "entanglement affects",
+    "reference": "algorithms in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement controls",
+    "reference": "algorithms in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "entanglement destroys",
+    "reference": "gates in quantum systems .",
+    "generated": "information in quantum systems ."
+   },
+   {
+    "prompt": "decoherence destroys",
+    "reference": "algorithms in quantum systems .",
+    "generated": "information in quantum systems ."
+   },
+   {
+    "prompt": "measurement observes",
+    "reference": "information in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "wave function",
+    "reference": "influences information in quantum systems .",
+    "generated": "determines gates in quantum systems ."
+   },
+   {
+    "prompt": "entanglement determines",
+    "reference": "particles in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "superposition affects",
+    "reference": "computations in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "coherence measures",
+    "reference": "states in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement measures",
+    "reference": "computations in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "decoherence determines",
+    "reference": "systems in quantum systems .",
+    "generated": "data in quantum systems ."
+   },
+   {
+    "prompt": "entanglement influences",
+    "reference": "circuits in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "qubit controls",
+    "reference": "particles in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "quantum influences",
+    "reference": "systems in quantum systems .",
+    "generated": "computations in quantum systems ."
+   },
+   {
+    "prompt": "wave function",
+    "reference": "manipulates states in quantum systems .",
+    "generated": "determines gates in quantum systems ."
+   }
+  ],
+  "free": [
+   "entanglement influences circuits in quantum systems .",
+   "superposition determines states in quantum systems .",
+   "qubit influences circuits in quantum systems .",
+   "qubit destroys states in quantum systems .",
+   "measurement controls data in quantum systems .",
+   "measurement measures gates in quantum systems .",
+   "measurement observes computations in quantum systems .",
+   "decoherence determines algorithms in quantum systems .",
+   "coherence measures data in quantum systems .",
+   "probability influences information in quantum systems .",
+   "wave function creates data in quantum systems .",
+   "qubit determines information in quantum systems .",
+   "measurement destroys particles in quantum systems .",
+   "quantum influences information in quantum systems .",
+   "entanglement manipulates information in quantum systems .",
+   "probability creates gates in quantum systems .",
+   "probability manipulates data in quantum systems .",
+   "qubit destroys systems in quantum systems .",
+   "quantum manipulates information in quantum systems .",
+   "superposition destroys information in quantum systems .",
+   "wave function manipulates computations in quantum systems .",
+   "superposition affects computations in quantum systems .",
+   "measurement destroys information in quantum systems .",
+   "decoherence measures systems in quantum systems .",
+   "coherence measures states in quantum systems .",
+   "quantum controls systems in quantum systems .",
+   "quantum measures systems in quantum systems .",
+   "qubit destroys algorithms in quantum systems .",
+   "entanglement destroys states in quantum systems .",
+   "superposition influences data in quantum systems ."
+  ]
+ },
+ "peak_vram_mb": 26.53759765625
+}

@@ -1,0 +1,326 @@
+{
+ "args": {
+  "model": "mlp",
+  "dataset": "short_stories",
+  "seed": 0,
+  "out": "experiments_rev/timing",
+  "tag": "timing",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 3,
+  "patience": 99,
+  "max_len": 64,
+  "n_samples": 50,
+  "n_prompts": 50,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 1596,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 4,
+  "q_depth": 2,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 288252,
+  "circuit": 0,
+  "embedding_and_head": 205884,
+  "body": 82368
+ },
+ "hilbert_dims": [],
+ "vocab_size": 1596,
+ "corpus_meta": {
+  "origin": "TinyStories validation split, first sentence of each story",
+  "license": "CDLA-Sharing-1.0",
+  "unique_after_filter": 14214,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 8000,
+   "valid": 1000,
+   "test": 1000
+  },
+  "avg_len": 12.01,
+  "max_len": 30,
+  "train_types": 2646
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 3.2702389850616456,
+   "val_nll": 2.187773803626186,
+   "val_ppl": 8.91534370047848,
+   "sec": 0.5478274822235107
+  },
+  {
+   "epoch": 2,
+   "train_loss": 2.1005330333709717,
+   "val_nll": 1.9597781004107846,
+   "val_ppl": 7.097751902167642,
+   "sec": 0.1675868034362793
+  },
+  {
+   "epoch": 3,
+   "train_loss": 1.9326233901977539,
+   "val_nll": 1.8590524925509142,
+   "val_ppl": 6.417653115596992,
+   "sec": 0.15700912475585938
+  }
+ ],
+ "best_epoch": 3,
+ "epochs_run": 3,
+ "train_seconds": 0.8728113174438477,
+ "valid": {
+  "nll": 1.8590524925509142,
+  "ppl": 6.417653115596992,
+  "acc": 0.6209210830826197,
+  "brier": 0.5016272463272873,
+  "tokens": 12963
+ },
+ "test": {
+  "nll": 1.8434145083709645,
+  "ppl": 6.318074590691895,
+  "acc": 0.6256725595695619,
+  "brier": 0.4978490760562788,
+  "tokens": 13010
+ },
+ "prompted": {
+  "bleu1": 0.5519075172838451,
+  "bleu2": 0.441931450227825,
+  "bleu3": 0.3715343720742059,
+  "bleu4": 0.3193555102567813,
+  "n": 50,
+  "exact_match": 0.0,
+  "mean_len": 9.52,
+  "ref_mean_len": 10.72,
+  "seconds": 0.01611804962158203,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.05042016806722689,
+  "gen_distinct2": 0.06103286384976526,
+  "gen_consec_rep": 0.0,
+  "gen_seq_rep2": 0.0
+ },
+ "free": {
+  "n": 50,
+  "mean_len": 13.66,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.010248901903367497,
+  "distinct1": 0.19765739385065886,
+  "distinct2": 0.4391785150078989,
+  "novelty": 0.92,
+  "unique_rate": 0.98,
+  "self_bleu4": 0.5891495225982087,
+  "consec_rep": 0.0,
+  "seq_rep2": 0.0016666666666666674,
+  "test_bleu1": 0.9809663250366032,
+  "test_bleu2": 0.9028551228072149,
+  "test_bleu3": 0.8225271021969922,
+  "test_bleu4": 0.749965900805009
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "one afternoon",
+    "reference": ", sam went out to the park with his parents .",
+    "generated": ", there was a little girl named lily ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a cool room with a funny number .",
+    "generated": "was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a open post .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "jill and",
+    "reference": "ben were jolly twins who liked to play in the park .",
+    "generated": "ben were playing in the park ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a girl named beth .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "billy was",
+    "reference": "on an exciting march .",
+    "generated": "a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a clumsy bear .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a big school with lots of kids .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "ben and",
+    "reference": "lily wanted to play outside , but it was <unk> .",
+    "generated": "lily were playing in the park ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a wealthy pilot named bob .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a beautiful and graceful princess .",
+    "generated": "was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a beautiful pink bird .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , in a big forest , there was a <unk> leopard .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there were two friends who went to a classroom .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a silly snake .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a cool blue bear .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a family with a little boy named jim .",
+    "generated": "was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a modern day room .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a friendly man .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "mama and",
+    "reference": "son were in the kitchen .",
+    "generated": "his were playing in the park ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a little girl called <unk> .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a little girl who wanted to explore the world .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a big rhinoceros .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there were two <unk> called <unk> and peter .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a little bunny named <unk> .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a little girl named ellie who was three years old .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a man who had a very special job .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "lily liked",
+    "reference": "to draw pictures with her crayons .",
+    "generated": "to play with her mom ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , in a small town , there lived a little girl named mia .",
+    "generated": "a time , there was a little girl named lily ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a kind and generous grandma .",
+    "generated": "a time , there was a little girl named lily ."
+   }
+  ],
+  "free": [
+   "once there was a boy named bob .",
+   "tim and sue parents to work room .",
+   "once upon a time there was a slow frog named bob who cars to play on the farm .",
+   "one day , sam was an enormous in the world .",
+   "once upon a time , there was a big beautiful .",
+   "once upon a time , there was a ugly who loved to race .",
+   "once there was a little girl called jane who lived in the river .",
+   "once upon a time there was a little dog who was very <unk> .",
+   "once upon a time , there was a little caterpillar who had a busy .",
+   "once upon a time , there was a tiny boy who loved to sail .",
+   "once upon a time , there was a little girl named lily .",
+   "tom and her mommy went to visit paper .",
+   "once upon a time , there was a little girl called claire .",
+   "one day , a little boy named tim .",
+   "once upon a time , there was a messy village .",
+   "once upon a time there was a kind mom who lived in a child .",
+   "once upon a time , there was a little boy who was out her adventures and her are twins .",
+   "once upon a time , there was a <unk> .",
+   "once upon a time , there was a naughty boy called jack .",
+   "once upon a time there was a white little girl who wanted to go things who liked to play adventure near .",
+   "once upon a time , there was a child .",
+   "once there was a little girl who loved to play with the toy .",
+   "lily and sam were playing in the park .",
+   "anna and ben were twins who liked to play together in the park .",
+   "once upon a time there was a young girl named jill .",
+   "once upon a time there was a family who loved to fly .",
+   "once upon a time , there was a little girl who wanted to beach near the of .",
+   "once upon a time , there was a hairy animal .",
+   "once upon a time , there was a girl called <unk> .",
+   "once upon a time , there was a big forest ."
+  ]
+ },
+ "peak_vram_mb": 188.74267578125
+}

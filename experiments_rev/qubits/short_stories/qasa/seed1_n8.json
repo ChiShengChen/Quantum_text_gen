@@ -1,0 +1,454 @@
+{
+ "args": {
+  "model": "qasa",
+  "dataset": "short_stories",
+  "seed": 1,
+  "out": "experiments_rev/qubits",
+  "tag": "n8",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": 8,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 1596,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 8,
+  "q_depth": 4,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 311224,
+  "circuit": 36,
+  "embedding_and_head": 205884,
+  "body": 105340
+ },
+ "hilbert_dims": [
+  512
+ ],
+ "vocab_size": 1596,
+ "corpus_meta": {
+  "origin": "TinyStories validation split, first sentence of each story",
+  "license": "CDLA-Sharing-1.0",
+  "unique_after_filter": 14214,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 8000,
+   "valid": 1000,
+   "test": 1000
+  },
+  "avg_len": 12.01,
+  "max_len": 30,
+  "train_types": 2646
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 3.5904246311187746,
+   "val_nll": 2.347690941586149,
+   "val_ppl": 10.461385863450046,
+   "sec": 21.130131006240845
+  },
+  {
+   "epoch": 2,
+   "train_loss": 2.2319351863861083,
+   "val_nll": 2.027984018817982,
+   "val_ppl": 7.598751966079451,
+   "sec": 20.315129280090332
+  },
+  {
+   "epoch": 3,
+   "train_loss": 2.010146960258484,
+   "val_nll": 1.904048534470705,
+   "val_ppl": 6.713017383430597,
+   "sec": 20.52470374107361
+  },
+  {
+   "epoch": 4,
+   "train_loss": 1.8983976697921754,
+   "val_nll": 1.8350560097730078,
+   "val_ppl": 6.265485064004406,
+   "sec": 20.469637632369995
+  },
+  {
+   "epoch": 5,
+   "train_loss": 1.8248748998641968,
+   "val_nll": 1.7835338815884634,
+   "val_ppl": 5.950848899635437,
+   "sec": 20.545222520828247
+  },
+  {
+   "epoch": 6,
+   "train_loss": 1.7695556211471557,
+   "val_nll": 1.7521669999469645,
+   "val_ppl": 5.767086420951565,
+   "sec": 20.619213581085205
+  },
+  {
+   "epoch": 7,
+   "train_loss": 1.7223412504196167,
+   "val_nll": 1.7208903691636774,
+   "val_ppl": 5.589502970459148,
+   "sec": 20.674755096435547
+  },
+  {
+   "epoch": 8,
+   "train_loss": 1.684324453353882,
+   "val_nll": 1.7037092952055852,
+   "val_ppl": 5.494289582815103,
+   "sec": 20.48165202140808
+  },
+  {
+   "epoch": 9,
+   "train_loss": 1.6528619356155396,
+   "val_nll": 1.6848104792245235,
+   "val_ppl": 5.391429047704333,
+   "sec": 20.394051790237427
+  },
+  {
+   "epoch": 10,
+   "train_loss": 1.6232615699768067,
+   "val_nll": 1.6747797894126553,
+   "val_ppl": 5.337619619294488,
+   "sec": 19.931842803955078
+  },
+  {
+   "epoch": 11,
+   "train_loss": 1.5947528982162475,
+   "val_nll": 1.66387145143871,
+   "val_ppl": 5.279711475527917,
+   "sec": 20.451686143875122
+  },
+  {
+   "epoch": 12,
+   "train_loss": 1.5728863983154298,
+   "val_nll": 1.6573718829553343,
+   "val_ppl": 5.245506907100239,
+   "sec": 20.469635486602783
+  },
+  {
+   "epoch": 13,
+   "train_loss": 1.5512205238342285,
+   "val_nll": 1.6517726760178006,
+   "val_ppl": 5.216218301436307,
+   "sec": 20.517396211624146
+  },
+  {
+   "epoch": 14,
+   "train_loss": 1.532965980529785,
+   "val_nll": 1.6480174719032052,
+   "val_ppl": 5.196667069416819,
+   "sec": 20.510454893112183
+  },
+  {
+   "epoch": 15,
+   "train_loss": 1.5159583234786986,
+   "val_nll": 1.6448969241784308,
+   "val_ppl": 5.1804758976179865,
+   "sec": 20.537395238876343
+  },
+  {
+   "epoch": 16,
+   "train_loss": 1.4981950397491455,
+   "val_nll": 1.6409961736046825,
+   "val_ppl": 5.160307514776793,
+   "sec": 20.557427644729614
+  },
+  {
+   "epoch": 17,
+   "train_loss": 1.4841503524780273,
+   "val_nll": 1.6432081106442376,
+   "val_ppl": 5.171734423246265,
+   "sec": 20.400456428527832
+  },
+  {
+   "epoch": 18,
+   "train_loss": 1.4665349483489991,
+   "val_nll": 1.6441438417876841,
+   "val_ppl": 5.176576041084756,
+   "sec": 20.386338233947754
+  },
+  {
+   "epoch": 19,
+   "train_loss": 1.4546436729431151,
+   "val_nll": 1.6469603013745853,
+   "val_ppl": 5.191176209043249,
+   "sec": 20.487611770629883
+  },
+  {
+   "epoch": 20,
+   "train_loss": 1.4405379095077515,
+   "val_nll": 1.6456196843901874,
+   "val_ppl": 5.184221492895314,
+   "sec": 20.32684087753296
+  },
+  {
+   "epoch": 21,
+   "train_loss": 1.4284981870651245,
+   "val_nll": 1.6423830837045823,
+   "val_ppl": 5.167469362659211,
+   "sec": 20.503973722457886
+  }
+ ],
+ "best_epoch": 16,
+ "epochs_run": 21,
+ "train_seconds": 430.24597334861755,
+ "valid": {
+  "nll": 1.6409961736046825,
+  "ppl": 5.160307514776793,
+  "acc": 0.6429838771889224,
+  "brier": 0.47356115987269054,
+  "tokens": 12963
+ },
+ "test": {
+  "nll": 1.6322727634391814,
+  "ppl": 5.1154878103014605,
+  "acc": 0.6487317448116833,
+  "brier": 0.4687469787363086,
+  "tokens": 13010
+ },
+ "prompted": {
+  "bleu1": 0.4255656108597285,
+  "bleu2": 0.3199993056727019,
+  "bleu3": 0.25628431848993205,
+  "bleu4": 0.20993363650183713,
+  "n": 1000,
+  "exact_match": 0.003,
+  "mean_len": 13.26,
+  "ref_mean_len": 10.01,
+  "seconds": 5.439022541046143,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.006108597285067873,
+  "gen_distinct2": 0.01264274061990212,
+  "gen_consec_rep": 0.0,
+  "gen_seq_rep2": 0.00019999999999999996
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 12.569,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.006842230885511974,
+  "distinct1": 0.04590659559233034,
+  "distinct2": 0.15930503932924195,
+  "novelty": 0.852,
+  "unique_rate": 0.964,
+  "self_bleu4": 0.8450870719117691,
+  "consec_rep": 8.643789437289307e-05,
+  "seq_rep2": 0.0007916989872872224,
+  "test_bleu1": 0.9825761794892195,
+  "test_bleu2": 0.9383432935967387,
+  "test_bleu3": 0.8838524791780266,
+  "test_bleu4": 0.8270127499872499
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "one afternoon",
+    "reference": ", sam went out to the park with his parents .",
+    "generated": ", a little girl named lucy was playing in the park ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a cool room with a funny number .",
+    "generated": "was a little girl who loved to play with his toys ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a open post .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "jill and",
+    "reference": "ben were jolly twins who liked to play in the park .",
+    "generated": "ben were playing in the park ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a girl named beth .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "billy was",
+    "reference": "on an exciting march .",
+    "generated": "a very happy little girl ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a clumsy bear .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a big school with lots of kids .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "ben and",
+    "reference": "lily wanted to play outside , but it was <unk> .",
+    "generated": "lily were playing with their toys in the living room ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a wealthy pilot named bob .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a beautiful and graceful princess .",
+    "generated": "was a little girl who loved to play with his toys ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a beautiful pink bird .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , in a big forest , there was a <unk> leopard .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there were two friends who went to a classroom .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a silly snake .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a cool blue bear .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once there",
+    "reference": "was a family with a little boy named jim .",
+    "generated": "was a little girl who loved to play with his toys ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a modern day room .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a friendly man .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "mama and",
+    "reference": "son were in the kitchen .",
+    "generated": "papa were playing in the park ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a little girl called <unk> .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a little girl who wanted to explore the world .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a big rhinoceros .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there were two <unk> called <unk> and peter .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time there was a little bunny named <unk> .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a little girl named ellie who was three years old .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a man who had a very special job .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "lily liked",
+    "reference": "to draw pictures with her crayons .",
+    "generated": "to play with her dolls ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , in a small town , there lived a little girl named mia .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   },
+   {
+    "prompt": "once upon",
+    "reference": "a time , there was a kind and generous grandma .",
+    "generated": "a time , there was a little girl who loved to play with her friends ."
+   }
+  ],
+  "free": [
+   "once upon a time , there was a little kitten .",
+   "once upon a time , there was a stubborn little boy named mike .",
+   "once upon a time there were two friends , matt and sarah .",
+   "lily was a clever girl who liked to play outside .",
+   "once upon a time , there was a little girl who lived in a big tree .",
+   "once upon a time , there was a lonely boy named <unk> .",
+   "once there was a little boy who lived in a small house with her dad .",
+   "once upon a time there was a little girl who was three years old .",
+   "once upon a time , there was a nosy little boy named tim .",
+   "once upon a time there was a little boy who loved to give .",
+   "once upon a time , there was a bad bear who loved to be fast .",
+   "once upon a time , there was a sweet little girl who lived in a forest .",
+   "once upon a time there was a fat man who had an adventure .",
+   "lily liked to read books .",
+   "once upon a time , there was a crane who wanted to be bored .",
+   "tom and lily liked to play with their toys .",
+   "once upon a time there was a bridge .",
+   "once upon a time , there was a fat cat who loved to play with his bed .",
+   "once upon a time there was a big girl called jo .",
+   "john was feeling excited .",
+   "lily and tom were playing with their toys in the living room .",
+   "once there was a boy who was always wanted to go on an adventure .",
+   "once there was a little boy who lived in a gloomy river .",
+   "once there was a boy named tim .",
+   "once there was a little girl who loved to play with her toys .",
+   "once upon a time , there was a mom and a shiny dog named fin .",
+   "lily and ben were playing with their toy car .",
+   "one day , a boy named tim went to the park .",
+   "anna and ben are playing with their dolls .",
+   "once upon a time , there was a little boy called tony ."
+  ]
+ },
+ "peak_vram_mb": 730.36328125
+}

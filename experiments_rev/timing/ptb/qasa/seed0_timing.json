@@ -1,0 +1,327 @@
+{
+ "args": {
+  "model": "qasa",
+  "dataset": "ptb",
+  "seed": 0,
+  "out": "experiments_rev/timing",
+  "tag": "timing",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 3,
+  "patience": 99,
+  "max_len": 64,
+  "n_samples": 50,
+  "n_prompts": 50,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 10002,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 8,
+  "q_depth": 4,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 1395598,
+  "circuit": 36,
+  "embedding_and_head": 1290258,
+  "body": 105340
+ },
+ "hilbert_dims": [
+  512
+ ],
+ "vocab_size": 10002,
+ "corpus_meta": {
+  "origin": "Penn Treebank (Mikolov et al. 2010 pre-processing), standard splits",
+  "license": "LDC; not redistributed, rebuild with this script",
+  "seed": null,
+  "tokenisation": "as distributed (whitespace)",
+  "test_in_train": 64,
+  "sizes": {
+   "train": 42068,
+   "valid": 3370,
+   "test": 3761
+  },
+  "avg_len": 21.1,
+  "max_len": 82,
+  "train_types": 9999
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 6.295706301112306,
+   "val_nll": 5.814117352584903,
+   "val_ppl": 334.9955849836386,
+   "sec": 55.57683801651001
+  },
+  {
+   "epoch": 2,
+   "train_loss": 5.683229680481653,
+   "val_nll": 5.53160321599802,
+   "val_ppl": 252.5484763916496,
+   "sec": 55.420409202575684
+  },
+  {
+   "epoch": 3,
+   "train_loss": 5.439450363257736,
+   "val_nll": 5.390196301102148,
+   "val_ppl": 219.24641964381482,
+   "sec": 55.300556659698486
+  }
+ ],
+ "best_epoch": 3,
+ "epochs_run": 3,
+ "train_seconds": 166.29899621009827,
+ "valid": {
+  "nll": 5.390196301102148,
+  "ppl": 219.24641964381482,
+  "acc": 0.18720755177605078,
+  "brier": 0.9270934830946383,
+  "tokens": 73731
+ },
+ "test": {
+  "nll": 5.336016726540413,
+  "ppl": 207.68379913011577,
+  "acc": 0.1849465496948297,
+  "brier": 0.9309176028338217,
+  "tokens": 82413
+ },
+ "prompted": {
+  "bleu1": 0.056977704376548324,
+  "bleu2": 0.02101636578540534,
+  "bleu3": 0.0,
+  "bleu4": 0.0,
+  "n": 50,
+  "exact_match": 0.0,
+  "mean_len": 24.22,
+  "ref_mean_len": 17.46,
+  "seconds": 0.8197834491729736,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.016515276630883566,
+  "gen_distinct2": 0.02239448751076658,
+  "gen_consec_rep": 0.8199827734711456,
+  "gen_seq_rep2": 0.7314013798379122
+ },
+ "free": {
+  "n": 50,
+  "mean_len": 19.86,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.02,
+  "unk_rate": 0.04028197381671702,
+  "distinct1": 0.44511581067472306,
+  "distinct2": 0.8579003181336161,
+  "novelty": 1.0,
+  "unique_rate": 1.0,
+  "self_bleu4": 0.11167159448299556,
+  "consec_rep": 0.02014846235418876,
+  "seq_rep2": 0.018773810502915936,
+  "test_bleu1": 0.9778449144008057,
+  "test_bleu2": 0.7343123224788214,
+  "test_bleu3": 0.4448965006132775,
+  "test_bleu4": 0.26022153490642685
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "no it",
+    "reference": "was n't black monday",
+    "generated": "is a <unk> of the <unk> of the <unk> of the <unk>"
+   },
+   {
+    "prompt": "but while",
+    "reference": "the new york stock exchange did n't fall apart friday as the dow jones industrial average plunged N points most of it in the final hour it barely managed to stay this side of chaos",
+    "generated": "the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "some circuit",
+    "reference": "breakers installed after the october N crash failed their first test traders say unable to cool the selling panic in both stocks and futures",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the N",
+    "reference": "stock specialist firms on the big board floor the buyers and sellers of last resort who were criticized after the N crash once again could n't handle the selling pressure",
+    "generated": "N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "big investment",
+    "reference": "banks refused to step up to the plate to support the beleaguered floor traders by buying big blocks of stock traders say",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "heavy selling",
+    "reference": "of standard & poor 's 500-stock index futures in chicago <unk> beat stocks downward",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "seven big",
+    "reference": "board stocks ual amr bankamerica walt disney capital cities\\/abc philip morris and pacific telesis group stopped trading and never resumed",
+    "generated": "board 's <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the <unk>",
+    "reference": "has already begun",
+    "generated": "of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the equity",
+    "reference": "market was <unk>",
+    "generated": "is a <unk> of the <unk> of the <unk> and <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "once again",
+    "reference": "the specialists were not able to handle the imbalances on the floor of the new york stock exchange said christopher <unk> senior vice president at <unk> securities corp",
+    "generated": "are n't <unk>"
+   },
+   {
+    "prompt": "<unk> james",
+    "reference": "<unk> chairman of specialists henderson brothers inc. it is easy to say the specialist is n't doing his job",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "when the",
+    "reference": "dollar is in a <unk> even central banks ca n't stop it",
+    "generated": "<unk> is a <unk> <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "speculators are",
+    "reference": "calling for a degree of liquidity that is not there in the market",
+    "generated": "n't disclosed"
+   },
+   {
+    "prompt": "many money",
+    "reference": "managers and some traders had already left their offices early friday afternoon on a warm autumn day because the stock market was so quiet",
+    "generated": "managers are <unk>"
+   },
+   {
+    "prompt": "then in",
+    "reference": "a <unk> plunge the dow jones industrials in barely an hour surrendered about a third of their gains this year <unk> up a 190.58-point or N N loss on the day in <unk> trading volume",
+    "generated": "the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "<unk> trading",
+    "reference": "accelerated to N million shares a record for the big board",
+    "generated": "<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "at the",
+    "reference": "end of the day N million shares were traded",
+    "generated": "<unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "jones industrials closed at N",
+    "generated": "jones industrial average N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "'s decline was second in point terms only to the <unk> black monday crash that occurred oct. N N",
+    "generated": "jones industrial average N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "in percentage",
+    "reference": "terms however the dow 's dive was the <unk> ever and the sharpest since the market fell N or N N a week after black monday",
+    "generated": "of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the dow",
+    "reference": "fell N N on black monday",
+    "generated": "jones industrial average N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "shares of",
+    "reference": "ual the parent of united airlines were extremely active all day friday reacting to news and rumors about the proposed $ N billion buy-out of the airline by an <unk> group",
+    "generated": "the <unk> of the <unk> of the <unk> of the <unk> and <unk> of the <unk> <unk> of the <unk> <unk>"
+   },
+   {
+    "prompt": "wall street",
+    "reference": "'s takeover-stock speculators or risk arbitragers had placed unusually large bets that a takeover would succeed and ual stock would rise",
+    "generated": "journal is a <unk> of the <unk> of the <unk>"
+   },
+   {
+    "prompt": "at N",
+    "reference": "p.m. edt came the <unk> news the big board was <unk> trading in ual pending news",
+    "generated": "N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "on the",
+    "reference": "exchange floor as soon as ual stopped trading we <unk> for a panic said one top floor trader",
+    "generated": "<unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "several traders",
+    "reference": "could be seen shaking their heads when the news <unk>",
+    "generated": "say the <unk> of the <unk> of the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "for weeks",
+    "reference": "the market had been nervous about takeovers after campeau corp. 's cash crunch spurred concern about the prospects for future highly leveraged takeovers",
+    "generated": "the <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "and N",
+    "reference": "minutes after the ual trading halt came news that the ual group could n't get financing for its bid",
+    "generated": "N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N N"
+   },
+   {
+    "prompt": "at this",
+    "reference": "point the dow was down about N points",
+    "generated": "year 's <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>"
+   },
+   {
+    "prompt": "the market",
+    "reference": "<unk>",
+    "generated": "is a <unk> of the <unk> of the <unk> of the <unk> and <unk>"
+   }
+  ],
+  "free": [
+   "the british loss rose to $ N billion in value and eliminating the $ N billion of the u.k. and court banking minister market and the market",
+   "mr. <unk> said yesterday would be equally schedule and chief executive with clients in N in a sharp investment on in <unk> of $ N billion the same university",
+   "industry guarantees which is <unk> in which the earnings",
+   "the french thing gasoline beyond in damages in second and general for lin to the department of the six months ago they higher <unk>",
+   "in some point fired appeared to make <unk> pace until N N the average in san francisco currency of by a joint priority",
+   "the food & loan corp. are my otc a week off N N stake for the quarter",
+   "in the issue of its chairman of the industry makers have a soft december for its city created",
+   "among psyllium 's frankfurt court portfolio stores led to watch more with <unk> corp. of sports from the newly moving off nov. N N to $ N billion or $ N million or $ N from $ N million in N million of painewebber products and in N billion",
+   "for several thrift N to N from N billion yen annually or N to <unk> $ N million",
+   "mccaw have since no longer liable she thinks that the u.s. their employee play sometimes on his <unk> for <unk> france is n't disclosed for what it has become so possible",
+   "last year they got N days by a letter who had suspended yielding able to be replaced it with the deal in the market began to the cold",
+   "they include the radio brought that may not be nothing the rich perhaps the company 's press 's seasonally and spur earnings on about N N points to # N in london will be down by earlier if a portfolio",
+   "mr. keating said the average yield was discussing to switch a valuable in new data",
+   "we 're <unk> new york",
+   "lin he was just senior attractive in a shares",
+   "this was elected less $ N billion in N to $ N billion a share down and $ N million or N",
+   "the soviet maker is beginning to N million earnings for national over-the-counter trading",
+   "rates will be changed",
+   "but <unk> <unk> jr. administration corp. p. transactions are a string over her <unk> to the dollar through last week costs and its <unk> an open to provide chapter will hold about <unk>",
+   "<unk> <unk> takes N days three months after the of the first san francisco has plans to make jail with a <unk> as mayor of water",
+   "scott 's asset politics for buy-outs technology morning marketing executive officer and oil consulting industry and litigation in N as one month was named and expected to be endorsed to sell this week",
+   "elsewhere on dow jones operations N N N N compared in N and a year ago",
+   "the lawsuit <unk> believes now through the department for each time for the senate pilots which it will shift research it comes the right with a story in N N N increase through a month basis",
+   "an interesting official who is n't considered <unk> line a <unk> of the cost in the new post and the that government administration 's $ N billion or $ N",
+   "it 's just the father a. was now and the dorrance directly <unk> of ual business",
+   "jack a vacancy drop on tuesday in the stock 's tentative loss for troubled to further between N N N by N",
+   "the education strength of <unk> 's new study and secretary he has just going on a single rhetoric",
+   "they are started quickly there are huge driving of drinking business such N N vehicles over N to build half gm germany",
+   "these of pulp at the major <unk>",
+   "first tucson president and <unk> like a close one salesman said"
+  ]
+ },
+ "peak_vram_mb": 2509.720703125
+}
