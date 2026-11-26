@@ -1,0 +1,639 @@
+{
+ "args": {
+  "model": "qksan",
+  "dataset": "proverbs",
+  "seed": 1,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 946,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 4,
+  "q_depth": 2,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 228274,
+  "circuit": 384,
+  "embedding_and_head": 122034,
+  "body": 106240
+ },
+ "hilbert_dims": [
+  16,
+  16,
+  16,
+  16
+ ],
+ "vocab_size": 946,
+ "corpus_meta": {
+  "origin": "Wiktionary Category:English proverbs (page titles)",
+  "license": "CC BY-SA 4.0",
+  "unique_after_filter": 1574,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 1260,
+   "valid": 157,
+   "test": 157
+  },
+  "avg_len": 6.93,
+  "max_len": 27,
+  "train_types": 1735
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 6.288597321510315,
+   "val_nll": 5.359490571892915,
+   "val_ppl": 212.61660598093022,
+   "sec": 2.2076101303100586
+  },
+  {
+   "epoch": 2,
+   "train_loss": 5.3651015043258665,
+   "val_nll": 4.794167658425471,
+   "val_ppl": 120.80378990876056,
+   "sec": 1.5763518810272217
+  },
+  {
+   "epoch": 3,
+   "train_loss": 5.051191711425782,
+   "val_nll": 4.655511779535217,
+   "val_ppl": 105.16302651401999,
+   "sec": 1.7555348873138428
+  },
+  {
+   "epoch": 4,
+   "train_loss": 4.894356083869934,
+   "val_nll": 4.554054853859541,
+   "val_ppl": 95.01690791904613,
+   "sec": 1.7461788654327393
+  },
+  {
+   "epoch": 5,
+   "train_loss": 4.76086392402649,
+   "val_nll": 4.46121663211507,
+   "val_ppl": 86.592796612548,
+   "sec": 1.6556994915008545
+  },
+  {
+   "epoch": 6,
+   "train_loss": 4.630360198020935,
+   "val_nll": 4.362088740018428,
+   "val_ppl": 78.42076406187786,
+   "sec": 1.5175015926361084
+  },
+  {
+   "epoch": 7,
+   "train_loss": 4.50986340045929,
+   "val_nll": 4.293470627943284,
+   "val_ppl": 73.22014792294185,
+   "sec": 1.4925625324249268
+  },
+  {
+   "epoch": 8,
+   "train_loss": 4.385094213485718,
+   "val_nll": 4.212285972051597,
+   "val_ppl": 67.5106911032601,
+   "sec": 1.6267106533050537
+  },
+  {
+   "epoch": 9,
+   "train_loss": 4.270062947273255,
+   "val_nll": 4.130668221488534,
+   "val_ppl": 62.21948544391255,
+   "sec": 1.6403968334197998
+  },
+  {
+   "epoch": 10,
+   "train_loss": 4.149763703346252,
+   "val_nll": 4.057627584971335,
+   "val_ppl": 57.836934973081554,
+   "sec": 1.6008834838867188
+  },
+  {
+   "epoch": 11,
+   "train_loss": 4.044603872299194,
+   "val_nll": 3.9982556242321867,
+   "val_ppl": 54.50299336188367,
+   "sec": 1.6158943176269531
+  },
+  {
+   "epoch": 12,
+   "train_loss": 3.937918186187744,
+   "val_nll": 3.94874686476249,
+   "val_ppl": 51.87032555784719,
+   "sec": 1.6929776668548584
+  },
+  {
+   "epoch": 13,
+   "train_loss": 3.833778750896454,
+   "val_nll": 3.9154437640765765,
+   "val_ppl": 50.17133080601953,
+   "sec": 1.7142174243927002
+  },
+  {
+   "epoch": 14,
+   "train_loss": 3.7358618140220643,
+   "val_nll": 3.8687379229371417,
+   "val_ppl": 47.88191726118951,
+   "sec": 1.628838062286377
+  },
+  {
+   "epoch": 15,
+   "train_loss": 3.6558929204940798,
+   "val_nll": 3.831745719441032,
+   "val_ppl": 46.14302073220447,
+   "sec": 1.5370402336120605
+  },
+  {
+   "epoch": 16,
+   "train_loss": 3.5654544591903687,
+   "val_nll": 3.7729416205978707,
+   "val_ppl": 43.5078603989875,
+   "sec": 1.6717557907104492
+  },
+  {
+   "epoch": 17,
+   "train_loss": 3.4890474677085876,
+   "val_nll": 3.7283372683763307,
+   "val_ppl": 41.609864575543796,
+   "sec": 1.626086950302124
+  },
+  {
+   "epoch": 18,
+   "train_loss": 3.4142942428588867,
+   "val_nll": 3.709450661599099,
+   "val_ppl": 40.83137012539472,
+   "sec": 1.6660001277923584
+  },
+  {
+   "epoch": 19,
+   "train_loss": 3.344965958595276,
+   "val_nll": 3.7057699567465194,
+   "val_ppl": 40.681358147502536,
+   "sec": 1.5711536407470703
+  },
+  {
+   "epoch": 20,
+   "train_loss": 3.2755028367042542,
+   "val_nll": 3.687237663800164,
+   "val_ppl": 39.93438226746719,
+   "sec": 1.5787880420684814
+  },
+  {
+   "epoch": 21,
+   "train_loss": 3.190277671813965,
+   "val_nll": 3.617331464987715,
+   "val_ppl": 37.23806403875958,
+   "sec": 1.34891939163208
+  },
+  {
+   "epoch": 22,
+   "train_loss": 3.1403934717178346,
+   "val_nll": 3.612213909577191,
+   "val_ppl": 37.04798297269644,
+   "sec": 1.484940767288208
+  },
+  {
+   "epoch": 23,
+   "train_loss": 3.088421332836151,
+   "val_nll": 3.6187935094185093,
+   "val_ppl": 37.292547561861554,
+   "sec": 1.633669137954712
+  },
+  {
+   "epoch": 24,
+   "train_loss": 3.036160719394684,
+   "val_nll": 3.606854013104013,
+   "val_ppl": 36.8499408362179,
+   "sec": 1.6827747821807861
+  },
+  {
+   "epoch": 25,
+   "train_loss": 2.9831618666648865,
+   "val_nll": 3.5895002335432022,
+   "val_ppl": 36.21597187501099,
+   "sec": 1.6435413360595703
+  },
+  {
+   "epoch": 26,
+   "train_loss": 2.9373037934303285,
+   "val_nll": 3.5672348484848486,
+   "val_ppl": 35.41852004624962,
+   "sec": 1.6050231456756592
+  },
+  {
+   "epoch": 27,
+   "train_loss": 2.8847825288772584,
+   "val_nll": 3.5916129197379196,
+   "val_ppl": 36.29256573973054,
+   "sec": 1.6303017139434814
+  },
+  {
+   "epoch": 28,
+   "train_loss": 2.8425420761108398,
+   "val_nll": 3.5503233613585174,
+   "val_ppl": 34.824576589520454,
+   "sec": 1.5881311893463135
+  },
+  {
+   "epoch": 29,
+   "train_loss": 2.809692418575287,
+   "val_nll": 3.5372469415438164,
+   "val_ppl": 34.37216024582863,
+   "sec": 1.7421627044677734
+  },
+  {
+   "epoch": 30,
+   "train_loss": 2.7672340750694273,
+   "val_nll": 3.535259824810606,
+   "val_ppl": 34.30392656764188,
+   "sec": 1.6281335353851318
+  },
+  {
+   "epoch": 31,
+   "train_loss": 2.7279141306877137,
+   "val_nll": 3.530724927697584,
+   "val_ppl": 34.14871399261339,
+   "sec": 1.6000354290008545
+  },
+  {
+   "epoch": 32,
+   "train_loss": 2.6842815041542054,
+   "val_nll": 3.519533249513718,
+   "val_ppl": 33.76866324493331,
+   "sec": 1.593261957168579
+  },
+  {
+   "epoch": 33,
+   "train_loss": 2.657248330116272,
+   "val_nll": 3.5245732237919736,
+   "val_ppl": 33.93928604519063,
+   "sec": 1.7132949829101562
+  },
+  {
+   "epoch": 34,
+   "train_loss": 2.608473002910614,
+   "val_nll": 3.5386553990069616,
+   "val_ppl": 34.4206060803912,
+   "sec": 1.8156991004943848
+  },
+  {
+   "epoch": 35,
+   "train_loss": 2.575458550453186,
+   "val_nll": 3.5247259866400493,
+   "val_ppl": 33.94447110322058,
+   "sec": 1.1297144889831543
+  },
+  {
+   "epoch": 36,
+   "train_loss": 2.547264611721039,
+   "val_nll": 3.509311735385954,
+   "val_ppl": 33.42525444536986,
+   "sec": 0.8562178611755371
+  },
+  {
+   "epoch": 37,
+   "train_loss": 2.5172788977622984,
+   "val_nll": 3.51559980612715,
+   "val_ppl": 33.636097011627875,
+   "sec": 1.055176019668579
+  },
+  {
+   "epoch": 38,
+   "train_loss": 2.488211762905121,
+   "val_nll": 3.481055007422195,
+   "val_ppl": 32.49398539442587,
+   "sec": 1.436856746673584
+  },
+  {
+   "epoch": 39,
+   "train_loss": 2.458207380771637,
+   "val_nll": 3.4911397548116296,
+   "val_ppl": 32.82333695112227,
+   "sec": 1.3722803592681885
+  },
+  {
+   "epoch": 40,
+   "train_loss": 2.4271076679229737,
+   "val_nll": 3.4828817631552007,
+   "val_ppl": 32.55339821836983,
+   "sec": 1.5450873374938965
+  },
+  {
+   "epoch": 41,
+   "train_loss": 2.399095892906189,
+   "val_nll": 3.4938614928849305,
+   "val_ppl": 32.91279516268064,
+   "sec": 1.5785927772521973
+  },
+  {
+   "epoch": 42,
+   "train_loss": 2.380107271671295,
+   "val_nll": 3.4786092022420148,
+   "val_ppl": 32.41460854634571,
+   "sec": 1.5036041736602783
+  },
+  {
+   "epoch": 43,
+   "train_loss": 2.3338987112045286,
+   "val_nll": 3.4871843167741607,
+   "val_ppl": 32.6937627060157,
+   "sec": 1.485837459564209
+  },
+  {
+   "epoch": 44,
+   "train_loss": 2.3204381346702574,
+   "val_nll": 3.4996156934633498,
+   "val_ppl": 33.102727919162845,
+   "sec": 1.5853424072265625
+  },
+  {
+   "epoch": 45,
+   "train_loss": 2.2969078540802004,
+   "val_nll": 3.5082315980753482,
+   "val_ppl": 33.38917007247396,
+   "sec": 1.5178542137145996
+  },
+  {
+   "epoch": 46,
+   "train_loss": 2.2649004578590395,
+   "val_nll": 3.4977605446355446,
+   "val_ppl": 33.04137435985436,
+   "sec": 1.5624816417694092
+  },
+  {
+   "epoch": 47,
+   "train_loss": 2.2639881014823913,
+   "val_nll": 3.4797609221437344,
+   "val_ppl": 32.45196260269099,
+   "sec": 1.4873945713043213
+  }
+ ],
+ "best_epoch": 42,
+ "epochs_run": 47,
+ "train_seconds": 73.96491360664368,
+ "valid": {
+  "nll": 3.4786092022420148,
+  "ppl": 32.41460854634571,
+  "acc": 0.33742833742833744,
+  "brier": 0.8073102621442465,
+  "tokens": 1221
+ },
+ "test": {
+  "nll": 3.508046875,
+  "ppl": 33.38300289192265,
+  "acc": 0.3488,
+  "brier": 0.82414619140625,
+  "tokens": 1250
+ },
+ "prompted": {
+  "bleu1": 0.23979029540275726,
+  "bleu2": 0.1674176962669109,
+  "bleu3": 0.13220443598063844,
+  "bleu4": 0.11086039624850888,
+  "n": 157,
+  "exact_match": 0.025477707006369428,
+  "mean_len": 4.439490445859873,
+  "ref_mean_len": 4.961783439490445,
+  "seconds": 0.4629848003387451,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.10191082802547771,
+  "gen_distinct1": 0.2223816355810617,
+  "gen_distinct2": 0.37037037037037035,
+  "gen_consec_rep": 0.016666666666666666,
+  "gen_seq_rep2": 0.01950354609929078
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 6.759,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.002,
+  "unk_rate": 0.08965823346648913,
+  "distinct1": 0.1173250480840361,
+  "distinct2": 0.4273311338774093,
+  "novelty": 0.912,
+  "unique_rate": 0.965,
+  "self_bleu4": 0.4833241141273373,
+  "consec_rep": 0.015106789373155061,
+  "seq_rep2": 0.009860443932936745,
+  "test_bleu1": 0.7472998964343838,
+  "test_bleu2": 0.47050412485066073,
+  "test_bleu3": 0.2673561448409269,
+  "test_bleu4": 0.1462062207780576
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "one bad",
+    "reference": "apple can spoil the <unk> <unk>",
+    "generated": "turn deserves another"
+   },
+   {
+    "prompt": "<unk> is",
+    "reference": "a <unk> best <unk> cold",
+    "generated": "the best teacher"
+   },
+   {
+    "prompt": "the end",
+    "reference": "<unk> the means",
+    "generated": "is the enemy of the fucking you don't know"
+   },
+   {
+    "prompt": "rome <unk>",
+    "reference": "<unk> in a day",
+    "generated": "is a <unk>"
+   },
+   {
+    "prompt": "the devil",
+    "reference": "finds work for idle hands",
+    "generated": "you know is better than the devil you don't know"
+   },
+   {
+    "prompt": "you get",
+    "reference": "more with a <unk> <unk> and a <unk> than you do with a <unk> <unk> alone",
+    "generated": "your nickel and you get your choice"
+   },
+   {
+    "prompt": "<unk> will",
+    "reference": "<unk> in the best <unk> <unk>",
+    "generated": "<unk>"
+   },
+   {
+    "prompt": "what's good",
+    "reference": "for the goose is good for the <unk>",
+    "generated": "<unk> , <unk> <unk>"
+   },
+   {
+    "prompt": "this too",
+    "reference": "shall <unk> away",
+    "generated": "shall <unk>"
+   },
+   {
+    "prompt": "saner heads",
+    "reference": "<unk>",
+    "generated": "prevail"
+   },
+   {
+    "prompt": "all that",
+    "reference": "<unk> is not gold",
+    "generated": "glitters"
+   },
+   {
+    "prompt": "the early",
+    "reference": "bird gets the worm",
+    "generated": "always darkest just before the cards"
+   },
+   {
+    "prompt": "there are",
+    "reference": "no <unk> in <unk>",
+    "generated": "plenty more flies"
+   },
+   {
+    "prompt": "one swallow",
+    "reference": "doesn't a summer make",
+    "generated": "does not make a child"
+   },
+   {
+    "prompt": "every rose",
+    "reference": "has a thorn",
+    "generated": "has a fall far from a cat"
+   },
+   {
+    "prompt": "a <unk>",
+    "reference": "is only as strong as its <unk> <unk>",
+    "generated": "<unk> is a <unk>"
+   },
+   {
+    "prompt": "<unk> can",
+    "reference": "<unk> <unk>",
+    "generated": "lead"
+   },
+   {
+    "prompt": "it's an",
+    "reference": "ill wind that blows nobody any good",
+    "generated": "ill wind that blows nobody"
+   },
+   {
+    "prompt": "god helps",
+    "reference": "those who help themselves",
+    "generated": "them what they can <unk>"
+   },
+   {
+    "prompt": "good things",
+    "reference": "come in <unk>",
+    "generated": "come in glass houses shouldn't throw stones"
+   },
+   {
+    "prompt": "a leopard",
+    "reference": "can't change its spots",
+    "generated": "does not <unk>"
+   },
+   {
+    "prompt": "people who",
+    "reference": "live in glass houses shouldn't throw stones",
+    "generated": "live in glass houses shouldn't throw stones"
+   },
+   {
+    "prompt": "it isn't",
+    "reference": "over till the fat lady sings",
+    "generated": "over til the fat lady sings"
+   },
+   {
+    "prompt": "there are",
+    "reference": "more horses <unk> than horses",
+    "generated": "plenty more flies"
+   },
+   {
+    "prompt": "ill <unk>",
+    "reference": "<unk> never <unk>",
+    "generated": "is the enemy of the well runs dry"
+   },
+   {
+    "prompt": "tell its",
+    "reference": "own <unk>",
+    "generated": "own lose"
+   },
+   {
+    "prompt": "<unk> ,",
+    "reference": "like chickens , come home to roost",
+    "generated": "heal thyself"
+   },
+   {
+    "prompt": "to <unk>",
+    "reference": "is human",
+    "generated": ", <unk>"
+   },
+   {
+    "prompt": "the <unk>",
+    "reference": "is always right",
+    "generated": "of the enemy of the fucking you don't know"
+   },
+   {
+    "prompt": "you are",
+    "reference": "never too old to learn",
+    "generated": "what you get more"
+   }
+  ],
+  "free": [
+   "the road that rocks the persimmon",
+   "the burnt wheel gets the miller",
+   "the more than one that brung ya",
+   "a camel has its day , sell",
+   "mackerel sky and mare's tails",
+   "god is power",
+   "<unk> <unk> est",
+   "<unk> ubi <unk> makes the <unk>",
+   "you are a better to fail",
+   "all roads lead to clogs",
+   "if you mess with em , there's smoke do",
+   "there are broom sweeps clean",
+   "you don't get your bed you get your money",
+   "there is a heap of living",
+   "proverbs run , go <unk>",
+   "the first those who is better than the weak",
+   "fortune favours the brave",
+   "<unk> make the great <unk> <unk>",
+   "there's no first <unk>",
+   "slow fast and carry a promise",
+   "a drowning man is a blind squirrel",
+   "everything killed the bold",
+   "what happens in the wind , not fall",
+   "a fool is neither is a <unk> by a pound",
+   "he who keeps before the spoils",
+   "<unk> <unk> , your <unk>",
+   "<unk> is always wears <unk>",
+   "good things come in small packages",
+   "let the victor but never <unk> but cut the lip",
+   "all sorts in the <unk>"
+  ]
+ },
+ "peak_vram_mb": 213.12060546875
+}

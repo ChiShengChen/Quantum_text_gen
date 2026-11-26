@@ -1,0 +1,490 @@
+{
+ "args": {
+  "model": "qrwkv",
+  "dataset": "simple_sentences",
+  "seed": 1,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 43,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 4,
+  "q_depth": 2,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 122939,
+  "circuit": 16,
+  "embedding_and_head": 5547,
+  "body": 117392
+ },
+ "hilbert_dims": [
+  16,
+  16
+ ],
+ "vocab_size": 43,
+ "corpus_meta": {
+  "origin": "synthetic grammar (this work)",
+  "license": "released with this paper",
+  "unique_after_filter": 1010,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 808,
+   "valid": 101,
+   "test": 101
+  },
+  "avg_len": 6.99,
+  "max_len": 7,
+  "train_types": 66
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 3.357772790468656,
+   "val_nll": 2.581773210280012,
+   "val_ppl": 13.220560220692391,
+   "sec": 0.6239345073699951
+  },
+  {
+   "epoch": 2,
+   "train_loss": 2.202982920866746,
+   "val_nll": 1.7976657376431002,
+   "val_ppl": 6.0355424688489325,
+   "sec": 0.23612141609191895
+  },
+  {
+   "epoch": 3,
+   "train_loss": 1.622783477489765,
+   "val_nll": 1.3649255733678836,
+   "val_ppl": 3.9154316287586206,
+   "sec": 0.23173141479492188
+  },
+  {
+   "epoch": 4,
+   "train_loss": 1.266625817005451,
+   "val_nll": 1.1150348776637917,
+   "val_ppl": 3.0496745428511938,
+   "sec": 0.2289595603942871
+  },
+  {
+   "epoch": 5,
+   "train_loss": 1.0863309915249164,
+   "val_nll": 1.004717231977104,
+   "val_ppl": 2.7311348860159472,
+   "sec": 0.2937929630279541
+  },
+  {
+   "epoch": 6,
+   "train_loss": 1.0046907984293425,
+   "val_nll": 0.9617585286055461,
+   "val_ppl": 2.6162932569837287,
+   "sec": 0.2830209732055664
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.9647325644126306,
+   "val_nll": 0.9439518239238475,
+   "val_ppl": 2.5701180300032123,
+   "sec": 0.25519323348999023
+  },
+  {
+   "epoch": 8,
+   "train_loss": 0.9430934190750122,
+   "val_nll": 0.9255254764368038,
+   "val_ppl": 2.5231937909427327,
+   "sec": 0.22853493690490723
+  },
+  {
+   "epoch": 9,
+   "train_loss": 0.930763996564425,
+   "val_nll": 0.9158987668481203,
+   "val_ppl": 2.499020279455551,
+   "sec": 0.28284215927124023
+  },
+  {
+   "epoch": 10,
+   "train_loss": 0.9186782928613516,
+   "val_nll": 0.9116533487149985,
+   "val_ppl": 2.4884333822499363,
+   "sec": 0.2439422607421875
+  },
+  {
+   "epoch": 11,
+   "train_loss": 0.9109864693421584,
+   "val_nll": 0.9076932397219214,
+   "val_ppl": 2.4785984014851588,
+   "sec": 0.22721242904663086
+  },
+  {
+   "epoch": 12,
+   "train_loss": 0.9084041302020733,
+   "val_nll": 0.9033549091603497,
+   "val_ppl": 2.467868713585315,
+   "sec": 0.22505593299865723
+  },
+  {
+   "epoch": 13,
+   "train_loss": 0.9045209288597107,
+   "val_nll": 0.903376286572749,
+   "val_ppl": 2.467921470796457,
+   "sec": 0.22168493270874023
+  },
+  {
+   "epoch": 14,
+   "train_loss": 0.8993536279751704,
+   "val_nll": 0.9006909663134283,
+   "val_ppl": 2.4613032013360443,
+   "sec": 0.22352862358093262
+  },
+  {
+   "epoch": 15,
+   "train_loss": 0.8980308220936701,
+   "val_nll": 0.9020323800568534,
+   "val_ppl": 2.464607042690744,
+   "sec": 0.29501986503601074
+  },
+  {
+   "epoch": 16,
+   "train_loss": 0.8970458369988662,
+   "val_nll": 0.9003692475876005,
+   "val_ppl": 2.460511481368633,
+   "sec": 0.22576642036437988
+  },
+  {
+   "epoch": 17,
+   "train_loss": 0.8923760423293481,
+   "val_nll": 0.8995649130037515,
+   "val_ppl": 2.458533202595882,
+   "sec": 0.2219066619873047
+  },
+  {
+   "epoch": 18,
+   "train_loss": 0.8947937075908368,
+   "val_nll": 0.8974739301322711,
+   "val_ppl": 2.453397822647123,
+   "sec": 0.22850704193115234
+  },
+  {
+   "epoch": 19,
+   "train_loss": 0.8924555228306696,
+   "val_nll": 0.8994083971080213,
+   "val_ppl": 2.4581484331815453,
+   "sec": 0.23725533485412598
+  },
+  {
+   "epoch": 20,
+   "train_loss": 0.8903069542004511,
+   "val_nll": 0.9017343049002166,
+   "val_ppl": 2.4638725140382554,
+   "sec": 0.262678861618042
+  },
+  {
+   "epoch": 21,
+   "train_loss": 0.8881803292494553,
+   "val_nll": 0.8970057421391553,
+   "val_ppl": 2.4522494400946617,
+   "sec": 0.2214338779449463
+  },
+  {
+   "epoch": 22,
+   "train_loss": 0.8861637253027695,
+   "val_nll": 0.9003312516920637,
+   "val_ppl": 2.4604179938075026,
+   "sec": 0.2198326587677002
+  },
+  {
+   "epoch": 23,
+   "train_loss": 0.887230267891517,
+   "val_nll": 0.8989423997331374,
+   "val_ppl": 2.4570032093209884,
+   "sec": 0.2165517807006836
+  },
+  {
+   "epoch": 24,
+   "train_loss": 0.8870833057623643,
+   "val_nll": 0.8978192924272896,
+   "val_ppl": 2.454245280081245,
+   "sec": 0.2213761806488037
+  },
+  {
+   "epoch": 25,
+   "train_loss": 0.8831917230899518,
+   "val_nll": 0.9014118307887917,
+   "val_ppl": 2.4630781070333576,
+   "sec": 0.21923828125
+  },
+  {
+   "epoch": 26,
+   "train_loss": 0.8824284535187942,
+   "val_nll": 0.8979321470355043,
+   "val_ppl": 2.4545222686002126,
+   "sec": 0.21480226516723633
+  }
+ ],
+ "best_epoch": 21,
+ "epochs_run": 26,
+ "train_seconds": 6.5981385707855225,
+ "valid": {
+  "nll": 0.8970057421391553,
+  "ppl": 2.4522494400946617,
+  "acc": 0.6014851485148515,
+  "brier": 0.4209277842304494,
+  "tokens": 808
+ },
+ "test": {
+  "nll": 0.9153674573555607,
+  "ppl": 2.4976928789204553,
+  "acc": 0.5885997521685254,
+  "brier": 0.4225346637333488,
+  "tokens": 807
+ },
+ "prompted": {
+  "bleu1": 0.4742054133141213,
+  "bleu2": 0.21970019948319225,
+  "bleu3": 0.1308538016878029,
+  "bleu4": 0.09405695558266287,
+  "n": 101,
+  "exact_match": 0.0,
+  "mean_len": 4.98019801980198,
+  "ref_mean_len": 4.99009900990099,
+  "seconds": 0.033200740814208984,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.019880715705765408,
+  "gen_distinct2": 0.02736318407960199,
+  "gen_consec_rep": 0.0024875621890547263,
+  "gen_seq_rep2": 0.0
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 7.0,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.0,
+  "distinct1": 0.005571428571428572,
+  "distinct2": 0.03216666666666667,
+  "novelty": 0.149,
+  "unique_rate": 0.577,
+  "self_bleu4": 0.9718546855383732,
+  "consec_rep": 0.0,
+  "seq_rep2": 0.002999999999999999,
+  "test_bleu1": 1.0,
+  "test_bleu2": 0.9406557996064944,
+  "test_bleu3": 0.8462040031863053,
+  "test_bleu4": 0.7264030944365762
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "a child",
+    "reference": "dances through the forest .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "a child",
+    "reference": "walks in the garden .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "the moon",
+    "reference": "dances in the park .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "a dog",
+    "reference": "sleeps across the field .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "the tree",
+    "reference": "walks under the tree .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "a woman",
+    "reference": "sings on the hill .",
+    "generated": "jumps in the garden ."
+   },
+   {
+    "prompt": "a flower",
+    "reference": "runs under the tree .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "the tree",
+    "reference": "stands through the forest .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "the bird",
+    "reference": "dances by the river .",
+    "generated": "walks in the sky ."
+   },
+   {
+    "prompt": "the bird",
+    "reference": "plays on the table .",
+    "generated": "walks in the sky ."
+   },
+   {
+    "prompt": "the tree",
+    "reference": "sleeps through the forest .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "the man",
+    "reference": "sleeps in the garden .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "the cat",
+    "reference": "flies near the house .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "the moon",
+    "reference": "plays in the garden .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "a child",
+    "reference": "walks on the table .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "the bird",
+    "reference": "sings on the table .",
+    "generated": "walks in the sky ."
+   },
+   {
+    "prompt": "the man",
+    "reference": "sleeps across the field .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "the moon",
+    "reference": "sits on the hill .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "the man",
+    "reference": "dances near the house .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "a child",
+    "reference": "runs through the forest .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "a woman",
+    "reference": "sings in the sky .",
+    "generated": "jumps in the garden ."
+   },
+   {
+    "prompt": "the moon",
+    "reference": "sits by the river .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "a flower",
+    "reference": "plays on the table .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "a child",
+    "reference": "walks near the house .",
+    "generated": "sits in the garden ."
+   },
+   {
+    "prompt": "a flower",
+    "reference": "sings through the forest .",
+    "generated": "flies in the sky ."
+   },
+   {
+    "prompt": "the bird",
+    "reference": "plays in the sky .",
+    "generated": "walks in the sky ."
+   },
+   {
+    "prompt": "the bird",
+    "reference": "stands through the forest .",
+    "generated": "walks in the sky ."
+   },
+   {
+    "prompt": "the man",
+    "reference": "flies on the table .",
+    "generated": "sits in the sky ."
+   },
+   {
+    "prompt": "a woman",
+    "reference": "jumps by the river .",
+    "generated": "jumps in the garden ."
+   },
+   {
+    "prompt": "the tree",
+    "reference": "flies by the river .",
+    "generated": "sits in the sky ."
+   }
+  ],
+  "free": [
+   "the tree sits by the river .",
+   "a flower stands on the hill .",
+   "the cat sings in the sky .",
+   "the man dances on the table .",
+   "the moon sings near the house .",
+   "a dog jumps in the sky .",
+   "a child jumps near the house .",
+   "a woman runs by the river .",
+   "a flower dances on the table .",
+   "a flower plays across the field .",
+   "the man sits by the river .",
+   "the bird sleeps near the house .",
+   "the moon sings in the garden .",
+   "a woman sleeps on the table .",
+   "the bird sits through the forest .",
+   "a flower sits through the forest .",
+   "the man dances on the table .",
+   "the cat dances in the park .",
+   "a dog flies under the tree .",
+   "the tree sleeps under the tree .",
+   "the man plays in the sky .",
+   "the cat dances on the hill .",
+   "a child plays through the forest .",
+   "the moon sits through the forest .",
+   "a child plays through the forest .",
+   "the cat sings on the table .",
+   "the sun walks on the table .",
+   "a flower sings in the park .",
+   "the man flies across the field .",
+   "a child runs in the park ."
+  ]
+ },
+ "peak_vram_mb": 31.4541015625
+}

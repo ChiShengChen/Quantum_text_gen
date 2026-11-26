@@ -18,13 +18,22 @@ sys.path.append('.')
 
 from data.datasets import create_dataloader
 from qksan_fixed import create_fixed_qksan_model
+from qksan_quantum_simple import create_quantum_qksan
 from qrwkv_model import QuantumRWKVModel, ModelConfig
+from qasa_text_generator import create_qasa_text_generator
 from transformer_baseline import create_transformer_baseline_model
 
 def create_model(model_type, vocab_size, device, **kwargs):
     """創建模型"""
-    if model_type == 'qksan':
+    if model_type == 'mlp':  # 重命名原本的假量子模型為MLP
         return create_fixed_qksan_model(
+            vocab_size=vocab_size,
+            embedding_dim=kwargs.get('embedding_dim', 64),
+            n_qubits=kwargs.get('n_qubits', 4),
+            device=device
+        )
+    elif model_type == 'qksan':  # 真正的量子QKSAN模型
+        return create_quantum_qksan(
             vocab_size=vocab_size,
             embedding_dim=kwargs.get('embedding_dim', 64),
             n_qubits=kwargs.get('n_qubits', 4),
@@ -41,49 +50,12 @@ def create_model(model_type, vocab_size, device, **kwargs):
         )
         return QuantumRWKVModel(config)
     elif model_type == 'qasa':
-        # 創建QASA文本生成模型
-        class QASATextGenerator(torch.nn.Module):
-            def __init__(self, vocab_size, hidden_dim=64, seq_len=32, n_qubits=4, device='cpu'):
-                super().__init__()
-                self.vocab_size = vocab_size
-                self.hidden_dim = hidden_dim
-                self.seq_len = seq_len
-                self.device = device
-                
-                # 嵌入層
-                self.embedding = torch.nn.Embedding(vocab_size, hidden_dim)
-                
-                # 量子層
-                self.quantum_layer = torch.nn.Linear(hidden_dim, hidden_dim)
-                
-                # 輸出層
-                self.output_layer = torch.nn.Linear(hidden_dim, vocab_size)
-                
-                # 位置編碼
-                self.pos_encoding = torch.nn.Parameter(torch.randn(seq_len, hidden_dim))
-                
-            def forward(self, input_ids):
-                batch_size, seq_len = input_ids.shape
-                
-                # 嵌入
-                embeddings = self.embedding(input_ids)  # [B, S, H]
-                
-                # 添加位置編碼
-                embeddings = embeddings + self.pos_encoding[:seq_len].unsqueeze(0)
-                
-                # 量子處理（簡化版）
-                quantum_output = torch.tanh(self.quantum_layer(embeddings))
-                
-                # 輸出
-                logits = self.output_layer(quantum_output)  # [B, S, V]
-                
-                return logits
-        
-        return QASATextGenerator(
+        # 使用真正的QASA量子模型
+        return create_qasa_text_generator(
             vocab_size=vocab_size,
-            hidden_dim=kwargs.get('embedding_dim', 64),
+            hidden_dim=kwargs.get('embedding_dim', 128),
             seq_len=kwargs.get('max_length', 32),
-            n_qubits=kwargs.get('n_qubits', 4),
+            n_qubits=kwargs.get('n_qubits', 8),
             device=device
         )
     elif model_type == 'transformer':
@@ -267,6 +239,12 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
             generated = []
             current_input = input_tensor.clone()
             
+            # 修改：從第一個詞開始生成，而不是從完整句子開始
+            # 只保留第一個詞作為提示
+            if len(input_ids) > 1:
+                current_input = torch.tensor([[input_ids[0]]], dtype=torch.long).to(device)
+                generated = input_ids[1:]  # 保留原始句子的其餘部分作為參考
+            
             for _ in range(max_length):
                 # 獲取模型輸出
                 outputs = model(current_input)
@@ -285,12 +263,12 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
                 elif len(logits.shape) == 2:
                     logits = logits[-1:]  # 如果只有一個token，取最後一個
                 
-                # 使用溫度採樣而不是貪心解碼
-                temperature = 0.8
+                # 使用更低的溫度來增加多樣性
+                temperature = 0.7
                 logits = logits / temperature
                 
-                # 應用top-k採樣
-                top_k = 10
+                # 應用top-k採樣，增加top_k值
+                top_k = 20
                 top_k_logits, top_k_indices = torch.topk(logits, top_k, dim=-1)
                 
                 # 計算概率
@@ -300,8 +278,10 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
                 next_token_idx = torch.multinomial(probs, 1)
                 next_token_id = top_k_indices[0, next_token_idx.item()]
                 
-                # 檢查是否為結束標記
-                if next_token_id.item() == tokenizer.token_to_id('<PAD>') or len(generated) >= max_length - 1:
+                # 檢查是否為結束標記或特殊標記
+                if (next_token_id.item() == tokenizer.token_to_id('<PAD>') or 
+                    next_token_id.item() == tokenizer.token_to_id('<EOS>') or
+                    len(generated) >= max_length - 1):
                     break
                 
                 generated.append(next_token_id.item())
@@ -309,8 +289,8 @@ def generate_texts_for_evaluation(model, tokenizer, prompts, device, max_length=
             
             # 解碼生成的文本
             generated_text = tokenizer.decode(generated)
-            full_text = prompt + " " + generated_text if generated_text else prompt
-            generated_texts.append(full_text)
+            # 修改：只返回生成的文本，不包含原始提示
+            generated_texts.append(generated_text)
     
     return generated_texts
 
@@ -581,7 +561,7 @@ def main():
     
     # 實驗配置
     datasets = ['simple_sentences', 'short_stories', 'quantum_phrases', 'haiku', 'proverbs']
-    models = ['qksan', 'qrwkv', 'qasa', 'transformer']  # 包含Transformer baseline
+    models = ['mlp', 'qksan', 'qrwkv', 'qasa', 'transformer']  # 包含MLP(假量子)、QKSAN(真量子)、QRWKV、QASA、Transformer
     
     # 從環境變量讀取配置
     epochs = int(os.environ.get('EPOCHS', 8))

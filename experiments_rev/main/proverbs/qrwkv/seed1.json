@@ -1,0 +1,511 @@
+{
+ "args": {
+  "model": "qrwkv",
+  "dataset": "proverbs",
+  "seed": 1,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 946,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 4,
+  "q_depth": 2,
+  "n_quantum_layers": 1,
+  "classical_surrogate": false,
+  "window": 4
+ },
+ "params": {
+  "total": 239426,
+  "circuit": 16,
+  "embedding_and_head": 122034,
+  "body": 117392
+ },
+ "hilbert_dims": [
+  16,
+  16
+ ],
+ "vocab_size": 946,
+ "corpus_meta": {
+  "origin": "Wiktionary Category:English proverbs (page titles)",
+  "license": "CC BY-SA 4.0",
+  "unique_after_filter": 1574,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 1260,
+   "valid": 157,
+   "test": 157
+  },
+  "avg_len": 6.93,
+  "max_len": 27,
+  "train_types": 1735
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 6.581893086433411,
+   "val_nll": 5.6630859375,
+   "val_ppl": 288.0361339874376,
+   "sec": 1.1187705993652344
+  },
+  {
+   "epoch": 2,
+   "train_loss": 5.5006814241409305,
+   "val_nll": 4.8731084600225225,
+   "val_ppl": 130.7266445240892,
+   "sec": 0.7018294334411621
+  },
+  {
+   "epoch": 3,
+   "train_loss": 5.095825743675232,
+   "val_nll": 4.694141184863841,
+   "val_ppl": 109.30489562180718,
+   "sec": 0.6664366722106934
+  },
+  {
+   "epoch": 4,
+   "train_loss": 4.90181953907013,
+   "val_nll": 4.558715320434071,
+   "val_ppl": 95.46076452848583,
+   "sec": 0.6758322715759277
+  },
+  {
+   "epoch": 5,
+   "train_loss": 4.720739507675171,
+   "val_nll": 4.443824461890868,
+   "val_ppl": 85.09978097939386,
+   "sec": 0.671994686126709
+  },
+  {
+   "epoch": 6,
+   "train_loss": 4.541711735725403,
+   "val_nll": 4.31298388231982,
+   "val_ppl": 74.66294232147665,
+   "sec": 0.6648273468017578
+  },
+  {
+   "epoch": 7,
+   "train_loss": 4.360368108749389,
+   "val_nll": 4.198374155405405,
+   "val_ppl": 66.57799752066687,
+   "sec": 0.6993474960327148
+  },
+  {
+   "epoch": 8,
+   "train_loss": 4.1750585556030275,
+   "val_nll": 4.091876855548731,
+   "val_ppl": 59.85212013670435,
+   "sec": 0.7013866901397705
+  },
+  {
+   "epoch": 9,
+   "train_loss": 3.9921162366867065,
+   "val_nll": 3.9868192055692058,
+   "val_ppl": 53.88322503149165,
+   "sec": 0.652754545211792
+  },
+  {
+   "epoch": 10,
+   "train_loss": 3.818499004840851,
+   "val_nll": 3.903773802211302,
+   "val_ppl": 49.589236404690816,
+   "sec": 0.5409889221191406
+  },
+  {
+   "epoch": 11,
+   "train_loss": 3.6386269092559815,
+   "val_nll": 3.8242355459152333,
+   "val_ppl": 45.79777668358142,
+   "sec": 0.5599274635314941
+  },
+  {
+   "epoch": 12,
+   "train_loss": 3.46711905002594,
+   "val_nll": 3.7489282606470105,
+   "val_ppl": 42.47553489482388,
+   "sec": 0.5323476791381836
+  },
+  {
+   "epoch": 13,
+   "train_loss": 3.310050094127655,
+   "val_nll": 3.6751230100839476,
+   "val_ppl": 39.45350973826268,
+   "sec": 0.6460733413696289
+  },
+  {
+   "epoch": 14,
+   "train_loss": 3.1464858412742616,
+   "val_nll": 3.6207106431715808,
+   "val_ppl": 37.3641109398955,
+   "sec": 0.6744849681854248
+  },
+  {
+   "epoch": 15,
+   "train_loss": 3.0039360523223877,
+   "val_nll": 3.609393395526208,
+   "val_ppl": 36.94363584161212,
+   "sec": 0.615048885345459
+  },
+  {
+   "epoch": 16,
+   "train_loss": 2.8619600772857665,
+   "val_nll": 3.522439342751843,
+   "val_ppl": 33.86694086164265,
+   "sec": 0.6530396938323975
+  },
+  {
+   "epoch": 17,
+   "train_loss": 2.723562228679657,
+   "val_nll": 3.4846841248208436,
+   "val_ppl": 32.61212412216629,
+   "sec": 0.6775593757629395
+  },
+  {
+   "epoch": 18,
+   "train_loss": 2.5913450360298156,
+   "val_nll": 3.4893205972307535,
+   "val_ppl": 32.76368040765659,
+   "sec": 0.6706352233886719
+  },
+  {
+   "epoch": 19,
+   "train_loss": 2.4727659940719606,
+   "val_nll": 3.4593210931101557,
+   "val_ppl": 31.795383080892744,
+   "sec": 0.652256965637207
+  },
+  {
+   "epoch": 20,
+   "train_loss": 2.3510857462882995,
+   "val_nll": 3.4373168445434072,
+   "val_ppl": 31.103390873482844,
+   "sec": 0.6925971508026123
+  },
+  {
+   "epoch": 21,
+   "train_loss": 2.23682187795639,
+   "val_nll": 3.4269045768069204,
+   "val_ppl": 30.781214245584508,
+   "sec": 0.685626745223999
+  },
+  {
+   "epoch": 22,
+   "train_loss": 2.13757660984993,
+   "val_nll": 3.4382526169635543,
+   "val_ppl": 31.132510191237618,
+   "sec": 0.5900213718414307
+  },
+  {
+   "epoch": 23,
+   "train_loss": 2.0502105712890626,
+   "val_nll": 3.4670956023495085,
+   "val_ppl": 32.04353997953031,
+   "sec": 0.6443705558776855
+  },
+  {
+   "epoch": 24,
+   "train_loss": 1.9599810361862182,
+   "val_nll": 3.411643088400901,
+   "val_ppl": 30.315013607715585,
+   "sec": 0.8057770729064941
+  },
+  {
+   "epoch": 25,
+   "train_loss": 1.881555825471878,
+   "val_nll": 3.456657740837428,
+   "val_ppl": 31.710813444459543,
+   "sec": 0.934901237487793
+  },
+  {
+   "epoch": 26,
+   "train_loss": 1.8136727809906006,
+   "val_nll": 3.4455168503020066,
+   "val_ppl": 31.359487419338034,
+   "sec": 1.0237951278686523
+  },
+  {
+   "epoch": 27,
+   "train_loss": 1.7343170762062072,
+   "val_nll": 3.4782212965806716,
+   "val_ppl": 32.40203717459113,
+   "sec": 0.9989750385284424
+  },
+  {
+   "epoch": 28,
+   "train_loss": 1.680244690179825,
+   "val_nll": 3.5149479646549957,
+   "val_ppl": 33.61417875302536,
+   "sec": 1.0296516418457031
+  },
+  {
+   "epoch": 29,
+   "train_loss": 1.620141714811325,
+   "val_nll": 3.502906493140868,
+   "val_ppl": 33.21184180302164,
+   "sec": 0.99267578125
+  }
+ ],
+ "best_epoch": 24,
+ "epochs_run": 29,
+ "train_seconds": 21.184760093688965,
+ "valid": {
+  "nll": 3.411643088400901,
+  "ppl": 30.315013607715585,
+  "acc": 0.3963963963963964,
+  "brier": 0.7809555716049856,
+  "tokens": 1221
+ },
+ "test": {
+  "nll": 3.518795703125,
+  "ppl": 33.74376647169636,
+  "acc": 0.3704,
+  "brier": 0.81775537109375,
+  "tokens": 1250
+ },
+ "prompted": {
+  "bleu1": 0.3244274809160306,
+  "bleu2": 0.22367598659112217,
+  "bleu3": 0.17221244073451974,
+  "bleu4": 0.13907037963566032,
+  "n": 157,
+  "exact_match": 0.025477707006369428,
+  "mean_len": 5.006369426751593,
+  "ref_mean_len": 4.961783439490445,
+  "seconds": 1.1561591625213623,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.050955414012738856,
+  "gen_distinct1": 0.23155216284987276,
+  "gen_distinct2": 0.44992050874403816,
+  "gen_consec_rep": 0.01589825119236884,
+  "gen_seq_rep2": 0.03838286992649408
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 7.117,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.0,
+  "unk_rate": 0.11058030068849234,
+  "distinct1": 0.10791063650414501,
+  "distinct2": 0.4448258950465915,
+  "novelty": 0.877,
+  "unique_rate": 0.962,
+  "self_bleu4": 0.4959043172264248,
+  "consec_rep": 0.013078306359326467,
+  "seq_rep2": 0.018202135772724008,
+  "test_bleu1": 0.8044119713362372,
+  "test_bleu2": 0.5273818850406018,
+  "test_bleu3": 0.3217845275590257,
+  "test_bleu4": 0.19027469591470053
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "one bad",
+    "reference": "apple can spoil the <unk> <unk>",
+    "generated": "penny always comes back"
+   },
+   {
+    "prompt": "<unk> is",
+    "reference": "a <unk> best <unk> cold",
+    "generated": "the <unk> of the <unk>"
+   },
+   {
+    "prompt": "the end",
+    "reference": "<unk> the means",
+    "generated": "is the enemy of good"
+   },
+   {
+    "prompt": "rome <unk>",
+    "reference": "<unk> in a day",
+    "generated": "is the best teacher"
+   },
+   {
+    "prompt": "the devil",
+    "reference": "finds work for idle hands",
+    "generated": "is in the details"
+   },
+   {
+    "prompt": "you get",
+    "reference": "more with a <unk> <unk> and a <unk> than you do with a <unk> <unk> alone",
+    "generated": "what you lose"
+   },
+   {
+    "prompt": "<unk> will",
+    "reference": "<unk> in the best <unk> <unk>",
+    "generated": "<unk> <unk>"
+   },
+   {
+    "prompt": "what's good",
+    "reference": "for the goose is good for the <unk>",
+    "generated": "<unk> , so is a <unk>"
+   },
+   {
+    "prompt": "this too",
+    "reference": "shall <unk> away",
+    "generated": "shall <unk>"
+   },
+   {
+    "prompt": "saner heads",
+    "reference": "<unk>",
+    "generated": "will prevail"
+   },
+   {
+    "prompt": "all that",
+    "reference": "<unk> is not gold",
+    "generated": "glitters"
+   },
+   {
+    "prompt": "the early",
+    "reference": "bird gets the worm",
+    "generated": "is weak"
+   },
+   {
+    "prompt": "there are",
+    "reference": "no <unk> in <unk>",
+    "generated": "plenty more pebbles on the beach"
+   },
+   {
+    "prompt": "one swallow",
+    "reference": "doesn't a summer make",
+    "generated": "does not a spring make"
+   },
+   {
+    "prompt": "every rose",
+    "reference": "has a thorn",
+    "generated": "has a silver lining"
+   },
+   {
+    "prompt": "a <unk>",
+    "reference": "is only as strong as its <unk> <unk>",
+    "generated": "is a <unk> of a <unk>"
+   },
+   {
+    "prompt": "<unk> can",
+    "reference": "<unk> <unk>",
+    "generated": "<unk>"
+   },
+   {
+    "prompt": "it's an",
+    "reference": "ill wind that blows nobody any good",
+    "generated": "ill wind that blows nobody knows you're a dog"
+   },
+   {
+    "prompt": "god helps",
+    "reference": "those who help themselves",
+    "generated": "them that help themselves"
+   },
+   {
+    "prompt": "good things",
+    "reference": "come in <unk>",
+    "generated": "come in small packages"
+   },
+   {
+    "prompt": "a leopard",
+    "reference": "can't change its spots",
+    "generated": "is a <unk> of a blind <unk>"
+   },
+   {
+    "prompt": "people who",
+    "reference": "live in glass houses shouldn't throw stones",
+    "generated": "have , get more"
+   },
+   {
+    "prompt": "it isn't",
+    "reference": "over till the fat lady sings",
+    "generated": "over til the fat lady sings"
+   },
+   {
+    "prompt": "there are",
+    "reference": "more horses <unk> than horses",
+    "generated": "plenty more pebbles on the beach"
+   },
+   {
+    "prompt": "ill <unk>",
+    "reference": "<unk> never <unk>",
+    "generated": "the fire"
+   },
+   {
+    "prompt": "tell its",
+    "reference": "own <unk>",
+    "generated": "own level"
+   },
+   {
+    "prompt": "<unk> ,",
+    "reference": "like chickens , come home to roost",
+    "generated": "heal thyself"
+   },
+   {
+    "prompt": "to <unk>",
+    "reference": "is human",
+    "generated": "is half <unk>"
+   },
+   {
+    "prompt": "the <unk>",
+    "reference": "is always right",
+    "generated": "is worthy of the <unk> don't"
+   },
+   {
+    "prompt": "you are",
+    "reference": "never too old to learn",
+    "generated": "not over til the fat lady sings"
+   }
+  ],
+  "free": [
+   "<unk> maketh the <unk>",
+   "<unk> begins from good",
+   "<unk> where you <unk>",
+   "a another door shuts , but a fool is another tea <unk>",
+   "clothes lie and",
+   "hope springs eternal , the more great <unk>",
+   "the devil helps you get isn't you never <unk>",
+   "the squeaky wheel oaks",
+   "you get the squeaky you do the first",
+   "those who live in your at in , think horses , not fall scorned",
+   "if you are that glitters to <unk> <unk> <unk>",
+   "it's not over til the fat lady sings",
+   "you don't get your honey where you get your <unk>",
+   "it's not what you know",
+   "proverbs come in pairs",
+   "<unk> on talks and grow noise",
+   "as the rose has the forearmed",
+   "once a man , but an <unk> in the <unk>",
+   "when you reap an old walks",
+   "mess with the bull and you make the sinner",
+   "a <unk> <unk> is the good <unk>",
+   "empty doesn't makes the mouths of the <unk>",
+   "nothing <unk> , be judge <unk>",
+   "a bitch is a great deodorant",
+   "better the devil we know with the tree",
+   "the fucking you get isn't worth the apple",
+   "the <unk> don't get isn't worth the <unk> of the <unk>",
+   "beauty helps to find an <unk>",
+   "live without em for the goose for is the thief",
+   "those that have , get more"
+  ]
+ },
+ "peak_vram_mb": 80.5615234375
+}

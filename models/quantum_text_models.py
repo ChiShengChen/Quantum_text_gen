@@ -292,9 +292,9 @@ class QRWKVTextGenerator(QuantumTextGenerator):
             _, states = self.forward(generated, states)
             
             for _ in range(max_length - current_length):
-                # Get logits for last token only
-                last_token = generated[:, -1:] # [batch_size, 1]
-                logits, states = self.forward(last_token, states)  # [batch_size, 1, vocab_size]
+                # 修改：使用整個序列而不是只使用最後一個token
+                # 這樣可以保持上下文信息
+                logits, states = self.forward(generated, states)  # [batch_size, seq_len, vocab_size]
                 next_token_logits = logits[:, -1, :] / temperature  # [batch_size, vocab_size]
                 
                 if do_sample:

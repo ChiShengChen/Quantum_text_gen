@@ -1,86 +1,99 @@
-# 量子文字生成模型專案
+# Hybrid quantum–classical language models for text generation
 
-## 🚀 快速開始
+Code, data and logs for *"Hybrid Quantum–Classical Architectures for Natural Language
+Generation: A Controlled Multi-Model Benchmark"* (C.-S. Chen and E.-J. Kuo).
 
-### 運行完整評估 (包含所有三個模型)
+The paper compares three hybrid models that contain variational quantum circuits (VQCs),
+**QASA**, **QKSAN** and **QRWKV**, against classical language models (**MLP-LM**,
+**Transformer**, **RWKV**) and against *classical surrogates* of each hybrid model, in which
+every circuit is replaced by a classical map of the same width. All circuits are simulated
+exactly (state vectors) in PyTorch on a GPU.
 
-#### 使用默認參數
+Everything for the paper lives in `qnlg/`. The other scripts in the repository root belong to the
+original submission and have been **superseded**; see [Legacy code](#legacy-code) below.
+
+## Layout
+
+| path | content |
+|---|---|
+| `qnlg/quantum.py` | batched state-vector simulator and the three circuit families (QASA, QRWKV, data re-uploading for QKSAN) |
+| `qnlg/models.py` | the nine causal language models (`mlp`, `transformer`, `rwkv`, `qasa`, `qasa_c`, `qksan`, `qksan_c`, `qrwkv`, `qrwkv_c`; `_c` = classical surrogate) |
+| `qnlg/prepare_data.py` | builds the six corpora with de-duplicated, disjoint train/valid/test splits |
+| `qnlg/data.py` | vocabulary and batching |
+| `qnlg/metrics.py` | BLEU (paired and multi-reference), Self-BLEU, Distinct-n, repetition, novelty |
+| `qnlg/train.py` | trains one model on one corpus with one seed and writes a JSON log, including generated text |
+| `qnlg/aggregate.py` | builds every results table (LaTeX) and figure (PDF) of the paper from the JSON logs |
+| `tests/` | simulator checked against PennyLane; metrics checked against NLTK |
+| `scripts/submit_all.sh` | every experiment in the paper (main grid, Transformer sweep, qubit scaling) |
+| `corpora/` | the processed corpora (Haiku and PTB are rebuilt locally, see below) |
+| `experiments_rev/` | per-run JSON logs of all experiments reported in the paper |
+
+## Setup
+
 ```bash
-./run_all_models.sh
+conda create -n qnlg python=3.11 -y && conda activate qnlg
+pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt
+python tests/test_quantum.py && python tests/test_metrics.py
 ```
 
-#### 自定義參數
+If PyTorch fails to import with an `nvJitLink` symbol error, a system CUDA directory on
+`LD_LIBRARY_PATH` is shadowing the wheel's libraries: run with `env -u LD_LIBRARY_PATH python ...`.
+
+## Data
+
 ```bash
-./run_all_models.sh [epochs] [batch_size] [max_length] [vocab_size] [max_samples] [learning_rate]
+python -m qnlg.prepare_data     # writes corpora/<name>/{train,valid,test}.txt and meta.json
 ```
 
-#### 示例
+| corpus | source | licence | in repo |
+|---|---|---|---|
+| simple_sentences | synthetic grammar (this work) | released with the paper | yes |
+| quantum_phrases | synthetic grammar + 10 hand-written phrases (this work) | released with the paper | yes |
+| short_stories | first sentences of TinyStories (validation split) | CDLA-Sharing-1.0 | yes |
+| proverbs | Wiktionary *Category:English proverbs* (page titles) | CC BY-SA 4.0 | yes |
+| haiku | `statworx/haiku` on Hugging Face, without the Twitter subset | not specified by the source | rebuilt by the script |
+| ptb | Penn Treebank, Mikolov et al. pre-processing, standard splits | LDC | rebuilt by the script |
+
+The splits are deterministic (fixed seed), so rebuilding gives identical files. No test sentence
+occurs in the training split, except 64 short sentences that are repeated within PTB's standard
+splits.
+
+## Reproducing the paper
+
 ```bash
-# 運行5個epoch，批次大小8
-./run_all_models.sh 5 8
+# one run
+python -m qnlg.train --model qrwkv --dataset haiku --seed 0 --out experiments_rev/main
 
-# 運行10個epoch，批次大小4，最大長度16
-./run_all_models.sh 10 4 16
+# everything (submits to the `gq` GPU queue used on our machine; replace `gq submit ... --` by your launcher)
+bash scripts/submit_all.sh
 
-# 完整自定義參數
-./run_all_models.sh 15 8 16 300 100 0.0005
+# tables and figures -> <out>/tables/*.tex, <out>/figures/*.pdf
+python -m qnlg.aggregate --out paper_build
 ```
 
-#### 直接運行Python腳本
-```bash
-PYTHONPATH=/media/meow/Transcend/Quantum_text_gen python comprehensive_evaluation.py
-```
+Default settings (all models): width 64, 2 blocks, 4 heads, feed-forward width 256, dropout 0.1,
+AdamW (lr 1e-3, weight decay 0.01), batch 64, gradient clipping 1.0, up to 100 epochs with early
+stopping (patience 5) on validation cross-entropy, seeds 0–4. Circuits: QASA 8 data qubits + 1
+ancilla, 4 layers; QKSAN 4 qubits and 2 re-uploading blocks per circuit; QRWKV 4 qubits, 2 layers.
 
-## 📊 支持的模型
+Each `experiments_rev/<group>/<dataset>/<model>/seed<k>.json` log contains the configuration,
+parameter counts, Hilbert-space dimensions, the per-epoch learning curve, test metrics, and the
+first 30 prompted continuations and free samples verbatim.
 
-1. **QKSAN** - Quantum-Kernel Self-Attention Network
-2. **QRWKV** - Quantum RWKV
-3. **QASA** - Quantum Attention Sequence Architecture
-## 📊 專案總結
+## Legacy code
 
-### 為什麼之前沒有QASA?
-- 之前的comprehensive_evaluation.py只包含QKSAN和QRWKV
-- 現在已經修復，包含所有三個模型
+The scripts in the repository root (`comprehensive_evaluation.py`, `qksan_*.py`, `qasa_*.py`,
+`qrwkv_model.py`, `transformer_*.py`, `run_*.sh`, …) and `experiments/comprehensive/` produced the
+results of the original submission. They contain errors that invalidate those results, which were
+found during revision:
 
-### 快速測試
-```bash
-# 快速測試（2個epoch，小批次，1000樣本）
-./run_all_models.sh 2 8
+* the evaluation compared outputs to five hard-coded reference strings per dataset that were unrelated to the prompts;
+* generation echoed the prompt word and usually stopped after it, so most outputs were one token
+  long, which made Distinct-1 = 1 and the repetition rate 0 by construction and BLEU-2 = 0;
+* perplexity included padding positions;
+* the models evaluated as "QASA", "QKSAN" and "MLP" used no context beyond the current token;
+* the training data were expanded by duplication, so test sentences also occurred in training.
 
-# 完整訓練（8個epoch，標準配置，1000樣本）
-./run_all_models.sh 8 16
-
-# 長時間訓練（15個epoch，大批次，1000樣本）
-./run_all_models.sh 15 32
-
-# 大數據集訓練（50個epoch，大批次，2000樣本）
-./run_all_models.sh 50 16 32 500 2000 0.001
-```
-
-### 數據集說明
-- **simple_sentences**: 簡單英文句子，可生成5000個樣本
-- **short_stories**: 短故事片段，可生成3000個樣本  
-- **quantum_phrases**: 量子計算相關短語，可生成2000個樣本
-- **haiku**: 日本俳句，可生成1500個樣本
-- **proverbs**: 諺語和格言，可生成2500個樣本
-
-**注意**: 默認使用1000個樣本進行訓練（每個數據集800個訓練樣本），可以通過參數調整到更大數據集。
-
-### 可用的bash腳本
-- `./run_all_models.sh` - 運行完整評估 (包含QASA)
-
-### 參數設定
-腳本支持以下參數（按順序）：
-1. **epochs** - 訓練輪數 (默認: 8)
-2. **batch_size** - 批次大小 (默認: 16)
-3. **max_length** - 最大序列長度 (默認: 32)
-4. **vocab_size** - 詞彙表大小 (默認: 500)
-5. **max_samples** - 最大樣本數 (默認: 200)
-6. **learning_rate** - 學習率 (默認: 0.001)
-
-### 核心文件
-- `comprehensive_evaluation.py` - 完整評估腳本
-- `qksan_fixed.py` - QKSAN模型
-- `qrwkv_model.py` - QRWKV模型
-- `qasa_model.py` - QASA模型
-- `analyze_results.py` - 結果分析腳本
+They are kept only so that the original results can be traced; use `qnlg/` for any new work.
+The previous README is in `LEGACY_README_zh.md`.

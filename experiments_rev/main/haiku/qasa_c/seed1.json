@@ -1,0 +1,424 @@
+{
+ "args": {
+  "model": "qasa_c",
+  "dataset": "haiku",
+  "seed": 1,
+  "out": "experiments_rev/main",
+  "tag": "",
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": null,
+  "n_qubits": null,
+  "q_depth": null,
+  "dropout": 0.1,
+  "lr": 0.001,
+  "batch_size": 64,
+  "max_epochs": 100,
+  "patience": 5,
+  "max_len": 64,
+  "n_samples": 1000,
+  "n_prompts": 1000,
+  "prompt_words": 2,
+  "device": "cuda"
+ },
+ "config": {
+  "vocab_size": 5248,
+  "d_model": 64,
+  "n_layers": 2,
+  "n_heads": 4,
+  "d_ff": 256,
+  "dropout": 0.1,
+  "max_len": 64,
+  "pad_id": 0,
+  "n_qubits": 8,
+  "q_depth": 4,
+  "n_quantum_layers": 1,
+  "classical_surrogate": true,
+  "window": 4
+ },
+ "params": {
+  "total": 782368,
+  "circuit": 0,
+  "embedding_and_head": 676992,
+  "body": 105376
+ },
+ "hilbert_dims": [],
+ "vocab_size": 5248,
+ "corpus_meta": {
+  "origin": "statworx/haiku (Hugging Face) without the 'twaiku' Twitter subset; three-line haiku, lines joined by '/'",
+  "license": "unspecified on source; text not redistributed, rebuild with this script",
+  "unique_after_filter": 21448,
+  "tokenisation": "[a-z0-9]+(?:'[a-z]+)?|[.,!?;:/]",
+  "seed": 20251125,
+  "test_in_train": 0,
+  "sizes": {
+   "train": 8000,
+   "valid": 1000,
+   "test": 1000
+  },
+  "avg_len": 12.44,
+  "max_len": 27,
+  "train_types": 11230
+ },
+ "history": [
+  {
+   "epoch": 1,
+   "train_loss": 6.082161552429199,
+   "val_nll": 5.097107066189415,
+   "val_ppl": 163.54808847230217,
+   "sec": 3.121784210205078
+  },
+  {
+   "epoch": 2,
+   "train_loss": 5.259472892761231,
+   "val_nll": 4.876440885085025,
+   "val_ppl": 131.16300794101167,
+   "sec": 2.607335090637207
+  },
+  {
+   "epoch": 3,
+   "train_loss": 5.06160689163208,
+   "val_nll": 4.755622568286951,
+   "val_ppl": 116.23599548763714,
+   "sec": 2.525954008102417
+  },
+  {
+   "epoch": 4,
+   "train_loss": 4.92089253616333,
+   "val_nll": 4.679972004574313,
+   "val_ppl": 107.76705554457418,
+   "sec": 2.6289258003234863
+  },
+  {
+   "epoch": 5,
+   "train_loss": 4.814507637023926,
+   "val_nll": 4.648913454425425,
+   "val_ppl": 104.4714109370533,
+   "sec": 2.640015125274658
+  },
+  {
+   "epoch": 6,
+   "train_loss": 4.720837978363037,
+   "val_nll": 4.592176628984381,
+   "val_ppl": 98.70904948201954,
+   "sec": 2.5936505794525146
+  },
+  {
+   "epoch": 7,
+   "train_loss": 4.639369598388672,
+   "val_nll": 4.573722823924077,
+   "val_ppl": 96.90419634801162,
+   "sec": 2.612557888031006
+  },
+  {
+   "epoch": 8,
+   "train_loss": 4.562929328918457,
+   "val_nll": 4.550665443689602,
+   "val_ppl": 94.69540181085671,
+   "sec": 2.5678915977478027
+  },
+  {
+   "epoch": 9,
+   "train_loss": 4.487135440826416,
+   "val_nll": 4.550009086003633,
+   "val_ppl": 94.63326814923603,
+   "sec": 2.592212200164795
+  },
+  {
+   "epoch": 10,
+   "train_loss": 4.421860897064209,
+   "val_nll": 4.542780445866732,
+   "val_ppl": 93.95166480943199,
+   "sec": 2.643867015838623
+  },
+  {
+   "epoch": 11,
+   "train_loss": 4.355630409240723,
+   "val_nll": 4.545735372265713,
+   "val_ppl": 94.22969564202488,
+   "sec": 2.588418483734131
+  },
+  {
+   "epoch": 12,
+   "train_loss": 4.291355766296387,
+   "val_nll": 4.542166372481085,
+   "val_ppl": 93.89398930284452,
+   "sec": 2.6242849826812744
+  },
+  {
+   "epoch": 13,
+   "train_loss": 4.23210142326355,
+   "val_nll": 4.557280303065773,
+   "val_ppl": 95.32387491637303,
+   "sec": 2.5752170085906982
+  },
+  {
+   "epoch": 14,
+   "train_loss": 4.175079963684082,
+   "val_nll": 4.5490007737002776,
+   "val_ppl": 94.53789635101353,
+   "sec": 2.612821578979492
+  },
+  {
+   "epoch": 15,
+   "train_loss": 4.1199137840271,
+   "val_nll": 4.5679324352479584,
+   "val_ppl": 96.3447047868564,
+   "sec": 2.5800774097442627
+  },
+  {
+   "epoch": 16,
+   "train_loss": 4.06716682434082,
+   "val_nll": 4.576553823671249,
+   "val_ppl": 97.17892079230604,
+   "sec": 2.5879194736480713
+  },
+  {
+   "epoch": 17,
+   "train_loss": 4.019352325439453,
+   "val_nll": 4.5911409562514045,
+   "val_ppl": 98.60687213125412,
+   "sec": 2.607715129852295
+  }
+ ],
+ "best_epoch": 12,
+ "epochs_run": 17,
+ "train_seconds": 44.71575355529785,
+ "valid": {
+  "nll": 4.542166372481085,
+  "ppl": 93.89398930284452,
+  "acc": 0.3209978275526257,
+  "brier": 0.8126467696842928,
+  "tokens": 13349
+ },
+ "test": {
+  "nll": 4.581103884603275,
+  "ppl": 97.62209828091426,
+  "acc": 0.3180471180915691,
+  "brier": 0.8171066756707012,
+  "tokens": 13498
+ },
+ "prompted": {
+  "bleu1": 0.3675008780290275,
+  "bleu2": 0.17567088290991456,
+  "bleu3": 0.07516109549566562,
+  "bleu4": 0.030745339446172873,
+  "n": 1000,
+  "exact_match": 0.0,
+  "mean_len": 9.156,
+  "ref_mean_len": 10.498,
+  "seconds": 0.5793640613555908,
+  "gen_empty_rate": 0.0,
+  "gen_single_token_rate": 0.0,
+  "gen_distinct1": 0.004259501965923985,
+  "gen_distinct2": 0.01066699362432565,
+  "gen_consec_rep": 0.018146150073565473,
+  "gen_seq_rep2": 0.1609198287007111
+ },
+ "free": {
+  "n": 1000,
+  "mean_len": 11.739,
+  "empty_rate": 0.0,
+  "single_token_rate": 0.001,
+  "unk_rate": 0.0674674163046256,
+  "distinct1": 0.17156486923928785,
+  "distinct2": 0.5791973181860508,
+  "novelty": 1.0,
+  "unique_rate": 1.0,
+  "self_bleu4": 0.23315250561463013,
+  "consec_rep": 0.004190334295558246,
+  "seq_rep2": 0.006452849916902204,
+  "test_bleu1": 0.9037642355240744,
+  "test_bleu2": 0.6721045918585723,
+  "test_bleu3": 0.4241744810247525,
+  "test_bleu4": 0.22640290748959926
+ },
+ "examples": {
+  "prompted": [
+   {
+    "prompt": "someone once",
+    "reference": "told me / becoming the rose that grows in / between the concrete",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "come holy",
+    "reference": "spirit / perfect for us is your grace / love , never ending",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "she ran",
+    "reference": "out of steam to follow / her bouncing breasts / the <unk> shorts",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "easter incense",
+    "reference": "/ the prayers i never learned / in <unk>",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "please listen",
+    "reference": "to me / let me be clear of fake sins / i'm <unk>",
+    "generated": "to the <unk> / <unk> <unk> / <unk>"
+   },
+   {
+    "prompt": "garage sale",
+    "reference": "/ memories / for a <unk>",
+    "generated": "/ the <unk> / of the <unk>"
+   },
+   {
+    "prompt": "<unk> <unk>",
+    "reference": "/ i and i alone decide / she proudly <unk>",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "the <unk>",
+    "reference": "faces / in the pumpkin fields / <unk> day",
+    "generated": "/ of a <unk> / the <unk>"
+   },
+   {
+    "prompt": "summer night",
+    "reference": "/ a <unk> cough and the <unk> / of mahjong tiles",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "cherry blossoms",
+    "reference": "/ <unk> in the moonlight / the milky way",
+    "generated": "/ the <unk> of the <unk> / of the <unk>"
+   },
+   {
+    "prompt": "why can't",
+    "reference": "you listen ? / this <unk> been easier / now it is too late",
+    "generated": "you do ? / i have you never be you / i am i want to be"
+   },
+   {
+    "prompt": "no tinder",
+    "reference": ", no more / no more loneliness in store / no storms anymore",
+    "generated": "<unk> / the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "i <unk>",
+    "reference": "into you / i thought you were <unk> ground / i am in pieces",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "<unk> /",
+    "reference": "this big fish in the stall / since yesterday",
+    "generated": "the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "<unk> stones",
+    "reference": "on rain / falling brief as <unk> go / puddles fade by day",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "<unk> <unk>",
+    "reference": "/ lavender among the trees / starts singing in spring",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "war games",
+    "reference": "/ <unk> / in his palm",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "blue picture",
+    "reference": "language / rain mothers bare their gray breasts / sky blood shadows through",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "divorce is",
+    "reference": "the price / half pay , so we all can dare / to believe in love",
+    "generated": "a haiku / i have never <unk> / i am i am i am ?"
+   },
+   {
+    "prompt": "a lonesome",
+    "reference": "spirit / all must return home sometime / where even is that ?",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "carrying moonlight",
+    "reference": "? / in the house / white peony",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "side of",
+    "reference": "the road / flowers , a deep shade of blue / thoughts fly to you",
+    "generated": "the <unk> / <unk> <unk> / <unk>"
+   },
+   {
+    "prompt": "we are",
+    "reference": "all broken / shattered pieces everywhere / glistening in light",
+    "generated": "the <unk> / <unk> <unk> / <unk>"
+   },
+   {
+    "prompt": "<unk> ,",
+    "reference": "<unk> / the black cat takes / her morning wash",
+    "generated": "<unk> / <unk> , <unk> / <unk>"
+   },
+   {
+    "prompt": "nothing to",
+    "reference": "no one / <unk> of crickets / a restless <unk>",
+    "generated": "the <unk> / <unk> <unk> / <unk>"
+   },
+   {
+    "prompt": "<unk> /",
+    "reference": "at some point , the rain / became snow",
+    "generated": "the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "sunset /",
+    "reference": "gonesome clouds / fade on the river",
+    "generated": "the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "darkening skies",
+    "reference": "/ <unk> clatter down the <unk> / in the <unk>",
+    "generated": "/ the <unk> of a <unk> / in the <unk>"
+   },
+   {
+    "prompt": "desert <unk>",
+    "reference": "/ autumn rain falls / on the sun",
+    "generated": "/ the <unk> / of a <unk>"
+   },
+   {
+    "prompt": "news of",
+    "reference": "her death / on the night table / the book <unk>",
+    "generated": "the <unk> / <unk> <unk> / <unk>"
+   }
+  ],
+  "free": [
+   "<unk> ! / another much , the park / remains in hand",
+   "climbing of fog / the <unk> of the birds boats / birdbath his side it",
+   "<unk> / the leaves from a field / on the <unk>",
+   "morning , mist / a mother leaf / in the <unk> , hiroshima",
+   "summer's end / a fallen finish through / with a bottle",
+   "a storm / turning its / with sand",
+   "mother's light / the orchid on his book / sleeping direction stars",
+   "time <unk> / the notes won't swell of a grasshopper / an orange <unk>",
+   "garage <unk> / i choose away / i can are a owl",
+   "<unk> pad / it's much light / by a <unk>",
+   "my chest is been / like a <unk> ? / left <unk>",
+   "sometimes i found my soul / not <unk> batter the sun / it's the tonight of them",
+   "a foot cry / memories <unk> rattle / he lines",
+   "in the sands / of a bedroom / no depth",
+   "<unk> friends / a candle shell / in the day",
+   "day level / the sticky curls / from the brother",
+   "life have / you mean the through / his scent",
+   "dying / in the <unk> / <unk>",
+   "morning two veins / the bright left / on the birdbath",
+   "cool moon / the creak / inside from the ones",
+   "on the <unk> / clear <unk> song / quiet <unk>",
+   "alone day / a bit knows cardboard / to the city nest",
+   "cumulonimbus buds / the <unk> turns ? / of fireflies",
+   "dark trail / the small puppy / on the <unk>",
+   "pearl storm / each eyes rises and saw / the best sun",
+   "<unk> / on the goldfish / earth",
+   "oprahilous heat / <unk> drinking / my mind",
+   "snow rise , <unk> / the bathroom branches is case , push / find just to find life",
+   "overcast morning / <unk> / <unk> / breakfast",
+   "where you ? / but it becomes <unk> violin ? / why wanted i hope"
+  ]
+ },
+ "peak_vram_mb": 496.1826171875
+}
