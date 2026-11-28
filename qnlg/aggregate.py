@@ -391,7 +391,7 @@ def table_examples(runs, out, datasets=("short_stories", "haiku", "proverbs"), k
     body = sep.join(blocks)
     write(os.path.join(out, "tables", "examples.tex"), f"""\\begin{{table}}[t]
 \\centering
-\\caption{{Greedy continuations of the same two-word test prompts by every model (seed 0), copied verbatim from the evaluation logs that produce Tables~\\ref{{tab:ppl}}--\\ref{{tab:full}}. \\texttt{{<unk>}} marks out-of-vocabulary words.}}
+\\caption{{Greedy continuations of the same two-word test prompts by every model (seed 0), copied verbatim from the evaluation logs that produce Tables~\\ref{{tab:ppl}}, \\ref{{tab:bleu2}} and~\\ref{{tab:full}}. \\texttt{{<unk>}} marks out-of-vocabulary words.}}
 \\label{{tab:examples}}
 \\scriptsize
 \\begin{{tabular}}{{lp{{0.72\\linewidth}}}}
